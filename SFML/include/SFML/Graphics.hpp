@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
-#include <Window.hpp>
+#include </home/travis/build/MariaSoloveva/rep2/SFML/include/SFML/Window.hpp>
 #include <Graphics/BlendMode.hpp>
 #include <Graphics/CircleShape.hpp>
 #include <Graphics/Color.hpp>
