@@ -13,12 +13,13 @@ add_executable(executable
     main.cpp
 )
 set(SFML_DIR "SFML/cmake/Modules")
-set(SFML_DIR "SFML/cmake/Modules")
+set(CMAKE_MODULE_PATH "SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
 find_package(SFML REQUIRED system window graphics network audio)
+
+
+
 if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
     target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
 endif()
-
-set(CMAKE_MODULE_PATH "SFML" ${CMAKE_MODULE_PATH})
 target_link_libraries(executable)
