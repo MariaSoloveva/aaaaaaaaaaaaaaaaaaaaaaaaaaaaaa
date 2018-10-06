@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
-#include <SFML/Config.hpp>
+#include </home/travis/build/MariaSoloveva/rep2/SFML/include/SFML/Config.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Err.hpp>
 #include <SFML/System/FileInputStream.hpp>
