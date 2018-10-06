@@ -12,7 +12,7 @@ ADD_DEFINITIONS(
 add_executable(executable
     main.cpp
 )
-set(SFML_DIR "SFML/cmake")
+set(SFML_DIR "SFML")
 set(CMAKE_MODULE_PATH "SFML/cmake" ${CMAKE_MODULE_PATH})
 find_package(SFML REQUIRED system window graphics network audio)
 
