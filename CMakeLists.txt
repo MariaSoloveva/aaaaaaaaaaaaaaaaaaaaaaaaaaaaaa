@@ -15,7 +15,6 @@ add_executable(executable
 set(SFML_DIR "SFML")
 set(CMAKE_MODULE_PATH "SFML/cmake" ${CMAKE_MODULE_PATH})
 find_package(SFML REQUIRED system window graphics network audio)
-
 if(SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
 endif()
