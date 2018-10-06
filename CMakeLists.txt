@@ -5,7 +5,7 @@ include_directories(SYSTEM
 )
 
 ADD_DEFINITIONS(
-    -std=c++14
+    -std=c++11
 )
 
 # enum your files
