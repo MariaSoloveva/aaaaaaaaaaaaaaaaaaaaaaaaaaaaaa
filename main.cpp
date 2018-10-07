@@ -2,7 +2,7 @@
 #include <vector>
 #include <exception>
 #include <string>
-#include </home/mariasolovyova/SFML-2.3.2/include/SFML/Graphics.hpp>
+#include <SFML-2.3.2/include/SFML/Graphics.hpp>
 
 
 int main()
@@ -11,8 +11,8 @@ int main()
     sf::Text text;
     sf::Font font;
     text.setFont(font);
-    font.loadFromFile("/home/mariasolovyova/CLionProjects/untitled1/Arial.ttf");
-    if (!font.loadFromFile("/home/mariasolovyova/CLionProjects/untitled1/Arial.ttf")){
+    font.loadFromFile("Arial.ttf");
+    if (!font.loadFromFile("Arial.ttf")){
         throw std::logic_error("");
     }
     text.setString("Hello world");
