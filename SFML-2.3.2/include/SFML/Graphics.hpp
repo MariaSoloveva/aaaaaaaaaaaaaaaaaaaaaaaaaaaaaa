@@ -39,7 +39,7 @@
 #include <SFML-2.3.2/include/SFML/Graphics/Glyph.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/Image.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/PrimitiveType.hpp>
-#include <SFML-2.3.2/include/SFML/Rect.hpp>
+#include <SFML-2.3.2/include/SFML/Graphics/Rect.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/RectangleShape.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/RenderStates.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/RenderTarget.hpp>
