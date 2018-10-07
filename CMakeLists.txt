@@ -10,7 +10,6 @@ find_package(SFML REQUIRED system window graphics network audio)
 if(SFML_FOUND)
     include_directories (${SFML_INCLUDE_DIR})
     link_libraries (${SFML_LIBRARIES})
-    include_directories (EVOLUTION_INCLUDES)
     add_executable(executable
     main.cpp)
     target_link_libraries(evolution ${SFML_LIBRARIES})
