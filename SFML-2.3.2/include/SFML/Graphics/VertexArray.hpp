@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML-2.3.2/include/SFML/Graphics/Export.hpp>
-#include <SFML-2.3.2/include/SFML-2.3.2/include/SFML/Graphics/Vertex.hpp>
+#include <SFML-2.3.2/include/SFML/Graphics/Vertex.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/PrimitiveType.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/Rect.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/Drawable.hpp>
