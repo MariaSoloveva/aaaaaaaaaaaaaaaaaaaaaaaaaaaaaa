@@ -1,24 +1,55 @@
+# Enable C++ support
 language: cpp
-compiler: gcc
-sudo: true
+sudo: required
+dist: trusty
+os:
+  - linux
+  #- osx
+compiler:
+  - gcc
+  - clang
+install:
+  #Linux
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -qq g++-6; fi
+  - if [ "$TRAVIS_OS_NAME" != "osx" ] && [ "$CXX" == "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
 
-before_install:
-  - sudo apt-add-repository ppa:sonkun/sfml-development --yes
-  - sudo apt-get update -qq
+  #OS X
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew unlink wget; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install wget; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ] && [ "$CC" == "gcc" ]; then export CC="gcc-6"; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ] && [ "$CC" == "gcc" ]; then export CXX="g++-6"; fi
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-6
+    - g++-6
+    - clang
 
-install: 
-  - sudo apt-get install libsfml-dev
-
-# Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
+# Build steps
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-
-script: 
-  - chmod 777 ./cpplint.py
-  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
-  - mkdir build && cd build
-  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES .. && make
-  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
-  - ./executable
+  #Linux
+    #SFML
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then wget http://www.sfml-dev.org/files/SFML-2.4.0-linux-gcc-64-bit.tar.gz; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then tar xf SFML-2.4.0-linux-gcc-64-bit.tar.gz; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo cp -r SFML-2.4.0/lib/* /usr/local/lib/.; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo cp -r SFML-2.4.0/include/* /usr/local/include/.; fi
+    #Lua
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install lua5.2; fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install liblua5.2-dev; fi
+    #OpenGL
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev libglu1-mesa; fi
+  #OS X
+    #SFML
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then wget http://www.sfml-dev.org/files/SFML-2.4.0-osx-clang.tar.gz; fi
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then tar xf SFML-2.4.0-osx-clang.tar.gz; fi
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then sudo cp -r SFML-2.4.0-osx-clang/lib/* /usr/local/lib/.; fi
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then sudo cp -r SFML-2.4.0-osx-clang/include/* /usr/local/include/.; fi
+    #OpenGL
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install fltk; fi
+script:
+  - mkdir build
+  - cd build
+  - cmake .. && make
