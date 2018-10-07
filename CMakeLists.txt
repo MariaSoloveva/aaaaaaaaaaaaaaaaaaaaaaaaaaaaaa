@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-include_directories(SYSTEM
-    ./
-)
-
-ADD_DEFINITIONS(
-    -std=c++11
-)
+set(CMAKE_CXX_STANDARD 14)
 
 set(SFML_DIR "SFML-2.3.2/share/SFML/cmake/Modules")
 set(CMAKE_MODULE_PATH "SFML-2.3.2/share/SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
