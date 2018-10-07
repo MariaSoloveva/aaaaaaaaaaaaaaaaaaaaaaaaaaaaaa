@@ -1,4 +1,3 @@
-project (evolution)
 include_directories(SYSTEM
     ./
 )
@@ -12,5 +11,5 @@ if(SFML_FOUND)
     link_libraries (${SFML_LIBRARIES})
     add_executable(executable
     main.cpp)
-    target_link_libraries(evolution ${SFML_LIBRARIES})
+    target_link_libraries(executable ${SFML_LIBRARIES})
 endif()
