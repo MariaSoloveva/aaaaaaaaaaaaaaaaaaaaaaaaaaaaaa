@@ -610,7 +610,7 @@ SFML_SYSTEM_API bool operator >=(const String& left, const String& right);
 ////////////////////////////////////////////////////////////
 SFML_SYSTEM_API String operator +(const String& left, const String& right);
 
-#include <SFML/System/String.inl>
+#include <SFML-2.3.2/include/SFML/System/String.inl>
 
 } // namespace sf
 
