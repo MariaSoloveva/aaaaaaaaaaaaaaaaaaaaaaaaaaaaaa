@@ -16,5 +16,9 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 script: 
- - ./build.sh
- - ./travis_qmake_gcc_cpp98_sfml
+  - chmod 777 ./cpplint.py
+  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
+  - mkdir build && cd build
+  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES .. && make
+  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
+  - ./executable
