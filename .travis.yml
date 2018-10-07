@@ -1,47 +1,29 @@
-sudo: false
-env:
-language: rust
-rust:
-  - nightly
-  - 1.25.0
+language: cpp
+sudo: true
+
+notifications:
+  email: false
+
+matrix:
+  include:
+    # works on Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+
 script:
-  - set -e
-  - mkdir sfml_install
-  # TODO: Maybe investigate why the certificate checks for the SFML sources fail
-  - wget http://www.sfml-dev.org/files/SFML-2.3.2-sources.zip --no-check-certificate
-  - unzip -q SFML-2.3.2-sources.zip
-  - pushd SFML-2.3.2 && mkdir build && cd build && cmake .. && make
-  - make DESTDIR=/home/travis/build/MariaSoloveva/rep2/sfml_install install
-  - popd
-  - wget http://www.sfml-dev.org/files/CSFML-2.3-sources.zip --no-check-certificate
-  - unzip -q CSFML-2.3-sources.zip
-  - pushd CSFML-2.3
-  - mkdir cmake/Modules
-  - cp /home/travis/build/MariaSoloveva/rep2/sfml_install/usr/local/share/SFML/cmake/Modules/FindSFML.cmake cmake/Modules
-  - mkdir build && cd build && cmake -DCMAKE_MODULE_PATH=/home/travis/build/MariaSoloveva/rep2/CSFML-2./cmake/Modules -DSFML_ROOT=/home/travis/build/MariaSoloveva/rep2/sfml_install/usr/local .. && make
-  - make DESTDIR=/home/travis/build/MariaSoloveva/rep2/sfml_install install
-  - popd
-  - mkdir .cargo
-  - mv .travis.cargo.config .cargo/config
-  - cargo build --verbose
-  - cargo test --verbose -- --skip font --skip audio --skip window --skip graphics
-  - cargo doc --verbose
-addons:
-  apt:
-    packages:
-    - libpthread-stubs0-dev
-    - libgl1-mesa-dev
-    - libx11-dev
-    - libx11-xcb-dev
-    - libxcb-image0-dev
-    - libxrandr-dev
-    - libxcb-randr0-dev
-    - libudev-dev
-    - libfreetype6-dev
-    - libglew-dev
-    - libjpeg8-dev
-    - libgpgme11-dev
-    - libsndfile1-dev
-    - libopenal-dev
-    - libjpeg62
-    - cmake
+  - chmod 777 ./cpplint.py
+  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
+  - mkdir build && cd build
+  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES .. && make
+  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
+  - ./executable
