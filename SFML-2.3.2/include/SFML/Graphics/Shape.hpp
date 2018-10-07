@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML-2.3.2/include/Graphics/Export.hpp>
+#include <SFML-2.3.2/include/SFML/Graphics/Export.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/Drawable.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/Transformable.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/VertexArray.hpp>
