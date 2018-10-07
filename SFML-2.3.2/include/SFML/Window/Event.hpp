@@ -31,7 +31,7 @@
 #include <SFML-2.3.2/include/SFML/Config.hpp>
 #include <SFML-2.3.2/include/SFML/Window/Joystick.hpp>
 #include <SFML-2.3.2/include/SFML/Window/Keyboard.hpp>
-#include <SFML-2.3.2/include/SFML-2.3.2/include/SFML/Window/Mouse.hpp>
+#include <SFML-2.3.2/include/SFML/Window/Mouse.hpp>
 #include <SFML-2.3.2/include/SFML/Window/Sensor.hpp>
 
 
