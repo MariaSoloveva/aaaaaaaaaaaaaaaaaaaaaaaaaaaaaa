@@ -1,29 +1,20 @@
 language: cpp
+compiler: gcc
 sudo: true
 
-notifications:
-  email: false
-
-matrix:
-  include:
-    # works on Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-5.0
-          packages:
-            - clang-5.0
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-
 before_install:
-    - eval "${MATRIX_EVAL}"
+  - sudo apt-add-repository ppa:sonkun/sfml-development --yes
+  - sudo apt-get update -qq
 
-script:
-  - chmod 777 ./cpplint.py
-  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
-  - mkdir build && cd build
-  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES .. && make
-  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
-  - ./executable
+install: 
+  - sudo apt-get install libsfml-dev
+
+# Start virtual X server, from https://docs.travis-ci.com/user/gui-and-headless-browsers/
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+script: 
+ - ./build.sh
+ - ./travis_qmake_gcc_cpp98_sfml
