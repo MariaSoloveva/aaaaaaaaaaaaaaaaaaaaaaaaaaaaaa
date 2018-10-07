@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML-2.3.2/include/SFML/Window/Export.hpp>
-#include <SFML-2.3.2/include/SFML-2.3.2/include/SFML/Window/ContextSettings.hpp>
+#include <SFML-2.3.2/include/SFML/Window/ContextSettings.hpp>
 #include <SFML-2.3.2/include/SFML/Window/VideoMode.hpp>
 #include <SFML-2.3.2/include/SFML/Window/WindowHandle.hpp>
 #include <SFML-2.3.2/include/SFML/Window/WindowStyle.hpp>
