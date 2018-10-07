@@ -35,7 +35,7 @@
 #include <SFML-2.3.2/include/SFML/Window/WindowStyle.hpp>
 #include <SFML-2.3.2/include/SFML/Window/GlResource.hpp>
 #include <SFML-2.3.2/include/SFML/System/Clock.hpp>
-#include <SFML-2.3.2/include/SFML-2.3.2/include/SFML/System/Vector2.hpp>
+#include <SFML-2.3.2/include/SFML/System/Vector2.hpp>
 #include <SFML-2.3.2/include/SFML/System/NonCopyable.hpp>
 #include <SFML-2.3.2/include/SFML/System/String.hpp>
 
