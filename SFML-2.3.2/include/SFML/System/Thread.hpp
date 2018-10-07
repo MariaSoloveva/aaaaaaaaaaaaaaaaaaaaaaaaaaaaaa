@@ -190,7 +190,7 @@ private:
     priv::ThreadFunc* m_entryPoint; ///< Abstraction of the function to run
 };
 
-#include <SFML/System/Thread.inl>
+#include <SFML-2.3.2/include/SFML/System/Thread.inl>
 
 } // namespace sf
 
