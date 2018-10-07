@@ -28,8 +28,8 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Network/Export.hpp>
-#include <SFML/Network/Socket.hpp>
+#include <SFML-2.3.2/include/SFML/Network/Export.hpp>
+#include <SFML-2.3.2/include/SFML/Network/Socket.hpp>
 
 
 namespace sf
