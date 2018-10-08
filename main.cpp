@@ -12,7 +12,7 @@ int main()
     text.setFont(font);
     font.loadFromFile("Arial.ttf");
     if (!font.loadFromFile("Arial.ttf")){
-        throw std::logic_error("");
+        throw std::logic_error("Error");
     }
     text.setString("Hello world");
     text.setCharacterSize(24);
