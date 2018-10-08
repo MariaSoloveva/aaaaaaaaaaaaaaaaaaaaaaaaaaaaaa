@@ -19,8 +19,6 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
-install:
-    - sudo apt-get install libsfml-dev
 
 script:
   - chmod 777 ./cpplint.py
