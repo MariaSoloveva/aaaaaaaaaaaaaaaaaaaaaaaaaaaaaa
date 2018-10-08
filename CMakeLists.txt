@@ -13,7 +13,7 @@ file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
 file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
 
 # CLASSES
-file(GLOB_RECURSE CLASSES_SOURCES src/classes)
+file(GLOB_RECURSE CLASSES_SOURCES src/classes/*.cpp)
 add_library(classes ${CLASSES_SOURCES})
 target_link_libraries(classes ${SFML_LIBS})
 target_include_directories(classes PUBLIC src)
