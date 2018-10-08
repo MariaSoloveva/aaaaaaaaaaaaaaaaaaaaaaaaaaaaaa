@@ -3,8 +3,8 @@ include_directories(SYSTEM
 )
 cmake_minimum_required (VERSION 2.8)
 set (CMAKE_CXX_FLAGS "-std=c++11")
-set(SFML_DIR "SFML-2.3.2/share/SFML/cmake/Modules")
-set(CMAKE_MODULE_PATH "SFML-2.3.2/share/SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
+set(SFML_DIR "")
+set(CMAKE_MODULE_PATH "" ${CMAKE_MODULE_PATH})
 find_package(SFML REQUIRED system window graphics network audio)
 
 add_executable(executable main.cpp)
