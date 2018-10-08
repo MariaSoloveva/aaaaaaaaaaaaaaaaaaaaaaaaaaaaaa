@@ -1,31 +1,10 @@
+dist: trusty
+sudo: false
 language: cpp
-sudo: true
+compiler: gcc
 
-notifications:
-  email: false
-
-matrix:
-  include:
-    # works on Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-5.0
-          packages:
-            - clang-5.0
-      env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-
-before_install:
-    - eval "${MATRIX_EVAL}"
-instal:
-    - sudo apt-get install libsfml-dev
+before_script:
+  - sudo apt-get install -y libsndfile1-dev libxrandr-dev libudev-dev libopenal-dev build-essential
 
 script:
-  - chmod 777 ./cpplint.py
-  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
-  - mkdir build && cd build
-  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DCMAKE_EXE_LINKER_FLAGS=-fuse-ld=gold .. && make
-  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
-  - ./executable
+  - ./console build
