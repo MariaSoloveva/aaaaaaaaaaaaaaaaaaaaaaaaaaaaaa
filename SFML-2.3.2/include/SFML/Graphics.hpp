@@ -29,8 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
-#include <SFML-2.3.2/include/SFML/Window.hpp>
-#include <SFML-2.3.2/include/SFML/Window.hpp>
+#include <Window.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/BlendMode.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/CircleShape.hpp>
 #include <SFML-2.3.2/include/SFML/Graphics/Color.hpp>
