@@ -11,6 +11,8 @@ add_executable(executable main.cpp)
 
 if(SFML_FOUND)
     message("Sfml found!")
+    message(${SFML_INCLUDE_DIR})
+    message(${SFML_LIBRARIES})
     include_directories (${SFML_INCLUDE_DIR})
     target_link_libraries(executable ${SFML_LIBRARIES})
 endif()
