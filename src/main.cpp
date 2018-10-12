@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include "Map.hpp"
+#include "classes/Map.hpp"
 
 int main()
 {
