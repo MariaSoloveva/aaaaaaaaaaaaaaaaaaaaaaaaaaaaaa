@@ -1,24 +1,13 @@
 #include <iostream>
-#include <vector>
-#include <exception>
 #include <string>
-#include "SFML/Graphics.hpp"
-
+#include <vector>
+#include <SFML/Graphics.hpp>
+#include "Map.hpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
-    sf::Text text;
-    sf::Font font;
-    text.setFont(font);
-    font.loadFromFile("resourses/Arial.ttf");
-    if (!font.loadFromFile("resourses/Arial.ttf")){
-        throw std::logic_error("");
-    }
-    text.setString("Hello world");
-    text.setCharacterSize(54);
-    text.setColor(sf::Color::White);
-    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    sf::RenderWindow window(sf::VideoMode(2000, 1000), "SFML works!");
+    Map map(&window);
     while (window.isOpen())
     {
         sf::Event event;
@@ -28,9 +17,13 @@ int main()
                 window.close();
         }
         window.clear();
-        window.draw(text);
+        for (size_t i = 0; i < map.Size(); ++i) {
+            map[i].hexagon.setPosition(map[i].X, map[i].Y);
+            window.draw(map[i].hexagon);
+        }
         window.display();
     }
 
     return 0;
 }
+
