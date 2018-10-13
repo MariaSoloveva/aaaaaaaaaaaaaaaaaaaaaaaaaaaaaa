@@ -1,4 +1,4 @@
-#include "Keyboard.hpp"
+#include "classes/Keyboard.hpp"
 
 void Keyboard::press(sf::Keyboard::Key key)
 {
