@@ -4,8 +4,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "Map.hpp"
-#include "Keyboard.hpp"
+#include "classes/Map.hpp"
+#include "classes/Keyboard.hpp"
 
 
 class Evolution
