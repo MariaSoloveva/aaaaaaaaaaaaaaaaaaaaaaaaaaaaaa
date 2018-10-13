@@ -20,7 +20,8 @@ size_t Evolution::getHeight()
 void Evolution::run()
 {
     StationaryObject hexagonObj;
-    hexagonObj.setPosition(map);
+    //  hexagonObj.setPosition(map);
+    std::vector<StationaryObject> vecObj;
     while (window.isOpen())
     {
         sf::Event event;
@@ -38,7 +39,11 @@ void Evolution::run()
                 map[i].hexagon.setPosition(map[i].X, map[i].Y);
                 window.draw(map[i].hexagon);
             }
-            hexagonObj.setPosition(map);
+            for (size_t i = 0; i < vecObj.size(); ++i) {
+                window.draw(vecObj[i].getObject());
+            }
+            //hexagonObj.getObject().setPosition(hexagonObj.getPosX(), hexagonObj.getPosY());
+            //hexagonObj.setPos(map);
             window.draw(hexagonObj.getObject());
             window.display();
         }
