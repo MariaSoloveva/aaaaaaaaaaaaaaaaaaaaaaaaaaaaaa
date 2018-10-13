@@ -1,5 +1,5 @@
-#include "classes/Evolution.hpp"
-#include "classes/StationaryObject.hpp"
+#include "Evolution.hpp"
+#include "StationaryObject.hpp"
 
 
 Evolution::Evolution()
