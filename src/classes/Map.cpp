@@ -57,10 +57,10 @@ Map::Map()
 
 void Map::Update()
 {
-    for (size_t i = 0; i < organisms.size(); ++i)
+    /*for (size_t i = 0; i < organisms.size(); ++i)
     {
         organisms[i]->Update();
-    }
+    }*/
 }
 
 Row& Map::operator[](size_t index)
