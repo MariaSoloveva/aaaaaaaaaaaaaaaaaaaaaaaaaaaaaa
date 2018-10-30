@@ -36,3 +36,9 @@ target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
 add_custom_target(NAME run_tests COMMAND tests)
+
+#Set sanititizer
+set(CMAKE_CXX_FLAGS 
+"${CMAKE_CXX_FLAGS} -std=c++11 -O1 -fsanitize=address -Wall -Wextra -Wno-unused-command-line-argument -Wshadow -Wnon-virtual-dtor -pedantic"
+)
+target_link_libraries(executable -fsanitize=address)
