@@ -1,7 +1,6 @@
 #include "Map.hpp"
 #include "Food.hpp"
 #include <../../../vendor/json/json.hpp>
-#include <boost/thread/recursive_mutex.hpp>
 #include "Pixel.hpp"
 
 boost::recursive_mutex mutex;
