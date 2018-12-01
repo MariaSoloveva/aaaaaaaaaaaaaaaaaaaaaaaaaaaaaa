@@ -5,7 +5,7 @@
 #include "Hexagon.hpp"
 #include "Food.hpp"
 #include "Map.hpp"
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <../../../vendor/json/json.hpp>
 
 using Json = nlohmann::json;
 
