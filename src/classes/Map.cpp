@@ -1,6 +1,6 @@
 #include "Map.hpp"
 #include "Food.hpp"
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <../../../vendor/json/json.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include "Pixel.hpp"
 
