@@ -8,7 +8,10 @@
 #include <set>
 #include <atomic>
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include "Brain.hpp"
+
+class Map;
 
 class Hexagon
 {
@@ -20,36 +23,48 @@ public:
         WATER,
         POISON,
         PIXEL
-        //  SOIL
     };
-    Brain* brain;
 public:
     Hexagon() = default;
 
     virtual ~Hexagon() = default;
 
     Hexagon(const Type& type1, double xNew, double yNew, size_t CellStrNew, size_t CellColNew);
-    // Hexagon(const Hexagon& hex);
-    Hexagon& operator=(const Hexagon& hex);
+    Hexagon(const Type& type, const float xNew, const float yNew, const size_t CellStrNew,
+                 const size_t CellColNew, const double lifesNew);
+    Hexagon& operator=(const Hexagon*);
 
-    void Swap(Hexagon& hex);
+    virtual void Update(Map& map)
+    {}
 
-    double& GetX();
-    double& GetY();
-
-    sf::CircleShape& GetHex();
-
+    double GetX() const;
+    double GetY() const;
     size_t GetCellStr() const;
     size_t  GetCellCol() const;
-
     Type GetType() const;
-    double& GetLifes();
-    double& GetMedicine();
+    double GetLifes() const;
+    double GetMedicine() const;
+    virtual Brain GetBrain() const;
+    virtual unsigned int GetNumberOfLifeIterations() const;
 
-    //  void Die();
+    virtual void SetBrain(const Brain&);
+    void SetX(double);
+    void SetY(double);
+    void SetCellStr(size_t);
+    void SetCellCol(size_t);
+    void SetType(Type&);
+    void SetLifes(double);
+    void SetMedicine(double);
+    virtual void SetNumberOfLifeIterations(unsigned int);
+    virtual void ResetNumberOfLifeIterations();
+    void ResetMedicine();
 
+    virtual void Print(sf::RenderWindow*) const;
+
+    bool IsAlive();
+
+    virtual void SaveToFile(const std::string&) const;
 protected:
-    sf::CircleShape hexagon = sf::CircleShape(10, 6); // сам шестиугольник
     double x;  // координата по х как номер ячейки
     double y;  // координата по у как номер ячейки
     size_t cellStr;
@@ -58,6 +73,12 @@ protected:
     double lifes;
     double medicine;  // отрицательна если яд и положительна если лекарство
     bool isHealfy = true;
+    int intrand(int a, int b)
+    {
+        static std::default_random_engine e;
+        static std::uniform_int_distribution<> dis(a, b);
+        return dis(e);
+    }
 };
 
 

@@ -1,122 +1,163 @@
 #include "Pixel.hpp"
 
 Pixel::Pixel()
-        : Hexagon()
 {
-    brain = new Brain();
+    numberOfLifeIterations = 1;
+    brain = Brain();
 }
 
 Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, const size_t CellColNew)
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew)
 {
-    brain = new Brain();
+    numberOfLifeIterations = 1;
+    medicine = 0;
 }
-Pixel::Pixel(const sf::CircleShape hexagon1, const float xNew, const float yNew, const size_t CellStrNew,
-      const size_t CellColNew, const double lifesNew, Brain* brainNew)
+
+Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, const size_t CellColNew, Brain newBrain)
+        :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew),
+             brain(newBrain)
+{
+    numberOfLifeIterations = 1;
+    medicine = 0;
+}
+
+Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
+             const size_t CellColNew, const double lifesNew, Brain brainNew, double medicineNew)
+        :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew),
+             brain(brainNew),
+             numberOfLifeIterations(1)
+
+{
+    medicine = medicineNew;
+    if (medicine >= 0)
+        isHealfy = true;
+    else
+        isHealfy = false;
+}
+
+Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
+             const size_t CellColNew, const double lifesNew, Brain brainNew)
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew)
 {
-    hexagon = hexagon1;
+    numberOfLifeIterations = 1;
     lifes = lifesNew;
     brain = brainNew;
 }
 
-Pixel::~Pixel()
+Pixel::Pixel(const Pixel& hex)
+        :  Hexagon(hex.type, hex.x, hex.y, hex.cellStr, hex.cellCol)
 {
-    if (brain != nullptr)
+    numberOfLifeIterations = 1;
+    lifes = hex.lifes;
+    medicine = hex.medicine;
+}
+
+std::vector<Hexagon*> Pixel::LookArond(Map& map) const
+{
+    std::vector<Hexagon*> dir;
+    if (cellStr % 2 == 0)
     {
-        delete brain;
-    }
-        brain = nullptr;
-}
+        if (cellStr < map.GetHeightInCells() - 1  && cellCol > 0)
+            dir.push_back(map[cellStr + 1][cellCol - 1]);
+        else
+            dir.push_back(nullptr);
+        if (cellCol > 0)
+            dir.push_back(map[cellStr][cellCol - 1]);
+        else
+            dir.push_back(nullptr);
 
-Pixel& Pixel::operator=(const Pixel& hexagon1)
-{
-    if (this != &hexagon1)
+        if (cellStr > 0 && cellCol > 0)
+            dir.push_back(map[cellStr - 1][cellCol - 1]);
+        else
+            dir.push_back(nullptr);
+
+        if (cellStr > 0)
+            dir.push_back(map[cellStr - 1][cellCol]);
+        else
+            dir.push_back(nullptr);
+
+        if (cellCol < map.GetWidthInCells() - 1)
+            dir.push_back(map[cellStr][cellCol + 1]);
+        else
+            dir.push_back(nullptr);
+        if (cellStr % 2 == 0 && cellStr < map.GetHeightInCells() - 1)
+            dir.push_back(map[cellStr + 1][cellCol]);
+        else
+            dir.push_back(nullptr);
+    }
+    else
     {
-        *this = hexagon1;
-        brain = hexagon1.brain;
+        if (cellStr < map.GetHeightInCells() - 1)
+            dir.push_back(map[cellStr + 1][cellCol]);
+        else
+            dir.push_back(nullptr);
+        if (cellCol > 0)
+            dir.push_back(map[cellStr][cellCol - 1]);
+        else
+            dir.push_back(nullptr);
+        if (cellStr % 2 == 1 && cellStr > 0)
+            dir.push_back(map[cellStr - 1][cellCol]);
+        else
+            dir.push_back(nullptr);
+
+        if (cellStr % 2 == 1 && cellStr > 0 && cellCol > 0 )
+            dir.push_back(map[cellStr - 1][cellCol + 1]);
+        else
+            dir.push_back(nullptr);
+        if (cellCol < map.GetHeight() - 1)
+            dir.push_back(map[cellStr][cellCol + 1]);
+        else
+            dir.push_back(nullptr);
+        if (cellStr % 2 == 1 && cellStr < map.GetHeightInCells() - 1 && cellCol < map.GetWidthInCells() - 1)
+            dir.push_back(map[cellStr + 1][cellCol + 1]);
+        else
+            dir.push_back(nullptr);
     }
-    return *this;
-}
-
-void Pixel::Swap(Pixel& hexagon1)
-{
-    //  std::swap(hex, hexagon1.hex);
-    std::swap(brain, hexagon1.brain);
-}
-
-std::vector<Hexagon*> Pixel::LookArond(Map& map)
-{
-    std::vector<Hexagon*> dir(6, nullptr);
-    if (cellStr % 2 == 0 && cellStr < map.GetHeightInCells() - 1  && cellCol > 0)
-        dir.push_back(&map[cellStr + 1][cellCol - 1]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 1 && cellStr < map.GetHeightInCells() - 1)
-        dir.push_back(&map[cellStr + 1][cellCol]);
-    else
-        dir.push_back(nullptr);
-    if (cellCol > 0)
-        dir.push_back(&map[cellStr][cellCol - 1]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 0 && cellStr > 0 && cellCol > 0)
-        dir.push_back(&map[cellStr - 1][cellCol - 1]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 1 && cellStr > 0)
-        dir.push_back(&map[cellStr - 1][cellCol]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 0 && cellStr > 0)
-        dir.push_back(&map[cellStr - 1][cellCol]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 1 && cellStr > 0 && cellCol > 0 )
-        dir.push_back(&map[cellStr - 1][cellCol + 1]);
-    else
-        dir.push_back(nullptr);
-    if (cellCol < map.GetWidthInCells() - 1)
-        dir.push_back(&map[cellStr][cellCol + 1]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 0 && cellStr < map.GetHeightInCells() - 1)
-        dir.push_back(&map[cellStr + 1][cellCol]);
-    else
-        dir.push_back(nullptr);
-    if (cellStr % 2 == 1 && cellStr < map.GetHeightInCells() - 1 && cellCol < map.GetWidthInCells() - 1)
-        dir.push_back(&map[cellStr + 1][cellCol + 1]);
-    else
-        dir.push_back(nullptr);
     return dir;
 }
 
 void Pixel::Update(Map& map)
 {
     std::vector<Hexagon*> vec = LookArond(map);
-    Hexagon* moveTo = brain->GetSolution(vec);
-    Move(moveTo);
+    Hexagon* moveTo = brain.GetSolution(vec);
+    Move(map, moveTo);
+    ++numberOfLifeIterations;
+    if (isHealfy)
+        lifes -= 1;
+    else
+        lifes -= 5;
 }
 
-void Pixel::EatingFood(Hexagon* hexagon1)
+void Pixel::EatingFood(Hexagon* hexagon1, Map& map)
 {
+    if (hexagon1->GetType() == Hexagon::Type::POISON)
+        isHealfy = false;
     lifes += hexagon1->GetLifes();
     medicine = hexagon1->GetMedicine();
+    map[hexagon1->GetCellStr()].erase(hexagon1->GetCellCol());
+    map[hexagon1->GetCellStr()].insert(new Water(hexagon1->GetX(), hexagon1->GetY(),
+                                                 hexagon1->GetCellStr(), hexagon1->GetCellCol()), hexagon1->GetCellCol());
+    map.Swap(this, map[hexagon1->GetCellStr()][hexagon1->GetCellCol()]);
 }
 
-void Pixel::Move(Hexagon* hexagon1)
+void Pixel::Move(Map& map, Hexagon* hexagon1)
 {
-    if (hexagon1->GetType() == Hexagon::Type::PIXEL)
-        return;
-    else if (hexagon1->GetType() == Hexagon::Type::FOOD)
+    if (hexagon1 != nullptr)
     {
-        EatingFood(hexagon1);
+        if (hexagon1->GetType() == Hexagon::Type::PIXEL)
+            return;
+        else if (hexagon1->GetType() == Hexagon::Type::FOOD || hexagon1->GetType() == Hexagon::Type::POISON)
+        {
+            EatingFood(hexagon1, map);
+            return;
+        }
+        /*else if (lifes > 90)
+        {
+            Reproduction(map);
+            return;
+        }*/
+        map.Swap(this, hexagon1);
     }
-    else if (hexagon1->GetType() == Hexagon::Type::POISON)
-    {
-        EatingFood(hexagon1);
-    }
-    // hexagon1 = this; /?
 }
 
 void Pixel::Reproduction(Map& map)
@@ -129,53 +170,112 @@ void Pixel::Reproduction(Map& map)
     {
         return;                     //  иначе выходим из функции и собираем энергию или доживаем свою жизнь
     }
-    Hexagon *dir = nullptr;
+    Hexagon* dir = nullptr;
     dir = ViewNearbyCells(map, Type::WATER);
-    Pixel newPixel(hexagon, dir->GetX(), dir->GetY(), dir->GetCellStr(), dir->GetCellCol(), lifes, brain);                      //  создаем нового пикселя
-    //  map.setObject(Pixel);
+    if (dir != nullptr)
+    {
+        map[dir->GetCellStr()].erase(dir->GetCellCol());
+        map[dir->GetCellStr()].insert(new Pixel(dir->GetX(), dir->GetY(), dir->GetCellStr(), dir->GetCellCol(), lifes,
+                                                brain), dir->GetCellCol());
+        map.SetOrganism(map[dir->GetCellStr()][dir->GetCellCol()]);
+    }
 }
-bool Pixel::IsAlive()
-{
-    return lifes > 0;
-}
+
 Hexagon* Pixel::ViewNearbyCells(Map& map, const Type& tmp)
 {
     std::vector<std::pair<int, int>> dir;
     if (cellStr > 0 && cellCol < 93 && cellCol > 0 && cellStr < 59)
     {
-        if (map[cellStr + 1][cellCol - 1].GetType() == tmp && cellStr % 2 == 0)
+        if (map[cellStr + 1][cellCol - 1]->GetType() == tmp && cellStr % 2 == 0)
             dir.push_back({1, -1});
-        if (map[cellStr + 1][cellCol].GetType() == tmp && cellStr % 2 == 1)
+        if (map[cellStr + 1][cellCol]->GetType() == tmp && cellStr % 2 == 1)
             dir.push_back({1, 0});
-        if (map[cellStr][cellCol - 1].GetType() == tmp)
+        if (map[cellStr][cellCol - 1]->GetType() == tmp)
             dir.push_back({0, -1});
-        if (map[cellStr - 1][cellCol - 1].GetType() == tmp && cellStr % 2 == 0)
+        if (map[cellStr - 1][cellCol - 1]->GetType() == tmp && cellStr % 2 == 0)
             dir.push_back({-1, -1});
-        if (map[cellStr - 1][cellCol].GetType() == tmp && cellStr % 2 == 1)
+        if (map[cellStr - 1][cellCol]->GetType() == tmp && cellStr % 2 == 1)
             dir.push_back({-1, 0});
 
-        if (map[cellStr - 1][cellCol].GetType() == tmp && cellStr % 2 == 0)
+        if (map[cellStr - 1][cellCol]->GetType() == tmp && cellStr % 2 == 0)
             dir.push_back({-1, 0});
-        if (map[cellStr - 1][cellCol + 1].GetType() == tmp && cellStr % 2 == 1)
+        if (map[cellStr - 1][cellCol + 1]->GetType() == tmp && cellStr % 2 == 1)
             dir.push_back({-1, 1});
-        if (map[cellStr][cellCol + 1].GetType() == tmp)
+        if (map[cellStr][cellCol + 1]->GetType() == tmp)
             dir.push_back({0, 1});
-        if (map[cellStr + 1][cellCol].GetType() == tmp && cellStr % 2 == 0)
+        if (map[cellStr + 1][cellCol]->GetType() == tmp && cellStr % 2 == 0)
             dir.push_back({1, 0});
-        if (map[cellStr + 1][cellCol + 1].GetType() == tmp && cellStr % 2 == 1)
+        if (map[cellStr + 1][cellCol + 1]->GetType() == tmp && cellStr % 2 == 1)
             dir.push_back({1, 1});
     }
     if (dir.size() > 1)
     {
         size_t r = rand() % dir.size();
-        return &map[cellStr + dir[r].first][cellCol + dir[r].second];
+        return (map[cellStr + dir[r].first][cellCol + dir[r].second]);
     }
     else if (dir.size() == 1)
     {
-        return &map[cellStr + dir[0].first][cellCol + dir[0].second];
+        return (map[cellStr + dir[0].first][cellCol + dir[0].second]);
     }
     else
     {
         return nullptr;
     }
+}
+
+unsigned int Pixel::GetNumberOfLifeIterations() const
+{
+    return numberOfLifeIterations;
+}
+
+Brain Pixel::GetBrain() const
+{
+    return brain;
+}
+
+void Pixel::SetBrain(const Brain& brainNew)
+{
+    brain = brainNew;
+}
+
+void Pixel::ResetNumberOfLifeIterations()
+{
+    numberOfLifeIterations = 0;
+}
+
+void Pixel::SaveToFile(const std::string& path_to_file) const
+{
+    std::fstream fl(path_to_file, std::ios::app);
+    fl << "\t\t\t\t" << "\"cellStr\"" << " : " << cellStr << "," << std::endl;
+    fl << "\t\t\t\t" << "\"cellCol\"" << " : " << cellCol << "," << std::endl;
+    fl << "\t\t\t\t" << "\"x\"" << " : " << x << "," << std::endl;
+    fl << "\t\t\t\t" << "\"y\"" << " : " << y << "," << std::endl;
+    fl << "\t\t\t\t" << "\"type\"" << " : " << type << "," << std::endl;
+    fl << "\t\t\t\t" << "\"lifes\"" << " : " << lifes << "," << std::endl;
+    fl << "\t\t\t\t" << "\"medicine\"" << " : " << medicine << "," << std::endl;
+    fl << "\t\t\t\t" << "\"isHealfy\"" << " : " << isHealfy << "," << std::endl;
+    fl.close();
+    brain.SaveNetworkState(path_to_file);
+}
+
+/*void Pixel::SaveToFile(const std::string& path_to_file) const
+{
+    std::fstream fl(path_to_file, std::ios::app);
+    fl << "    " << "\"x\"" << " : " << x << "," << std::endl;
+    fl << "    " << "\"y\"" << " : " << y << "," << std::endl;
+    fl << "    " << "\"type\"" << " : " << type << "," << std::endl;
+    fl << "    " << "\"medicine\"" << " : " << medicine << "," << std::endl;
+    fl << "    " << "\"isHealfy\"" << " : " << isHealfy << "," << std::endl;
+    fl.close();
+    brain.SaveNetworkState(path_to_file);
+}*/
+
+void Pixel::Print(sf::RenderWindow* window) const
+{
+    sf::CircleShape hexagon1(10, 6);
+    hexagon1.setFillColor(sf::Color::Yellow);
+    hexagon1.setOutlineThickness(1);
+    hexagon1.setOutlineColor(sf::Color::Black);
+    hexagon1.setPosition(x, y);
+    window->draw(hexagon1);
 }

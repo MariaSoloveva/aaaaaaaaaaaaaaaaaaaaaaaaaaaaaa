@@ -9,85 +9,41 @@ Hexagon::Hexagon(const Type& type1, double xNew, double yNew, size_t cellStrNew,
              cellStr(cellStrNew),
              cellCol(cellColNew),
              lifes(99)
-{
-    brain = nullptr;
-    if (type1 == Type::FOOD)
-    {
-        hexagon.setFillColor(sf::Color(93, 161, 48)); // Green
-        medicine = rand() % 5;
-    }
-    else if (type1 == Type::POISON)
-    {
-        hexagon.setFillColor(sf::Color(207, 66, 52)); // Красный
-        medicine = rand() % 12;
-    }
-    /*else if (type1 == Type::SOIL)
-    {
-        hexagon.setFillColor(sf::Color(131, 77, 24)); // Коричневый
-        Medicine = 0;
-    }*/
-    else if (type1 == Type::WATER)
-    {
-        hexagon.setFillColor(sf::Color(66, 170, 255)); // Голубой
-        medicine = 0;
-    }
-    hexagon.setOutlineThickness(1);
-    hexagon.setOutlineColor(sf::Color::Black);
-}
+{}
 
-/*Hexagon::Hexagon(const Hexagon& hex)
-    :  type(hex.type),
-       x(hex.x),
-       y(hex.y),  //  Почему когда объявляю конструктор ничего не работает
-       cellStr(hex.cellStr),
-       cellCol(hex.cellCol),
-       lifes(hex.lifes)
-{}*/
+Hexagon::Hexagon(const Type& type1, const float xNew, const float yNew, const size_t cellStrNew,
+                 const size_t cellColNew, const double lifesNew)
+        :    type(type1),
+             x(xNew),
+             y(yNew),
+             cellStr(cellStrNew),
+             cellCol(cellColNew),
+             lifes(lifesNew)
+{}
 
-Hexagon& Hexagon::operator=(const Hexagon& hex)
+Hexagon& Hexagon::operator=(const Hexagon* hex)
 {
-    if (&hex != this)
+    if (hex != this)
     {
-        hexagon = hex.hexagon;
-        x = hex.x;
-        y = hex.y;
-        cellStr = hex.cellStr;
-        cellCol = hex.cellCol;
-        type = hex.type;
-        lifes = hex.lifes;
-        medicine = hex.medicine;
+        x = hex->x;
+        y = hex->y;
+        cellStr = hex->cellStr;
+        cellCol = hex->cellCol;
+        type = hex->type;
+        lifes = hex->lifes;
+        medicine = hex->medicine;
     }
     return *this;
 }
-void Hexagon::Swap(Hexagon& hex)
-{
-    if (this != &hex)
-    {
-        std::swap(hexagon, hex.hexagon);
-        std::swap(type, hex.type);
-        std::swap(x, hex.x);
-        std::swap(y, hex.y);
-        std::swap(lifes, hex.lifes);
-        std::swap(cellStr, hex.cellStr);
-        std::swap(cellCol, hex.cellCol);
-        std::swap(medicine, hex.medicine);
-        std::swap(brain, hex.brain);
-    }
-}
 
-double& Hexagon::GetX()
+double Hexagon::GetX() const
 {
     return x;
 }
 
-double& Hexagon::GetY()
+double Hexagon::GetY() const
 {
     return y;
-}
-
-sf::CircleShape& Hexagon::GetHex()
-{
-    return hexagon;
 }
 
 size_t Hexagon::GetCellStr() const
@@ -105,11 +61,88 @@ Hexagon::Type Hexagon::GetType() const
     return type;
 }
 
-double& Hexagon::GetLifes()
+double Hexagon::GetLifes() const
 {
     return lifes;
 }
-double& Hexagon::GetMedicine()
+
+double Hexagon::GetMedicine() const
 {
     return medicine;
+}
+
+Brain Hexagon::GetBrain() const
+{}
+
+unsigned int Hexagon::GetNumberOfLifeIterations() const
+{}
+
+void Hexagon::SetNumberOfLifeIterations(unsigned int)
+{}
+
+void Hexagon::ResetNumberOfLifeIterations()
+{}
+
+void Hexagon::SetX(double newX)
+{
+    x = newX;
+}
+
+void Hexagon::SetY(double newY)
+{
+    y = newY;
+}
+
+void Hexagon::SetCellStr(size_t newCellStr)
+{
+    cellStr = newCellStr;
+}
+
+void  Hexagon::SetCellCol(size_t newCellCol)
+{
+    cellCol = newCellCol;
+}
+
+void Hexagon::SetBrain(const Brain&)
+{}
+
+void Hexagon::SetType(Type& typeNew)
+{
+    type = typeNew;
+}
+
+void Hexagon::SetLifes(double newLifes)
+{
+    lifes = newLifes;
+}
+
+void Hexagon::SetMedicine(double newMedicine)
+{
+    medicine = newMedicine;
+}
+
+void Hexagon::ResetMedicine()
+{
+    medicine = 0;
+}
+
+bool Hexagon::IsAlive()
+{
+    return lifes > 0;
+}
+
+void Hexagon::Print(sf::RenderWindow*) const
+{}
+
+void Hexagon::SaveToFile(const std::string& path_to_file) const
+{
+    std::fstream fl(path_to_file, std::ios::app);
+    fl << "\t\t\t\t" << "\"cellStr\"" << " : " << cellStr << "," << std::endl;
+    fl << "\t\t\t\t" << "\"cellCol\"" << " : " << cellCol << "," << std::endl;
+    fl << "\t\t\t\t" << "\"x\"" << " : " << x << "," << std::endl;
+    fl << "\t\t\t\t" << "\"y\"" << " : " << y << "," << std::endl;
+    fl << "\t\t\t\t" << "\"type\"" << " : " << type << "," << std::endl;
+    fl << "\t\t\t\t" << "\"medicine\"" << " : " << medicine << "," << std::endl;
+    fl << "\t\t\t\t" << "\"isHealfy\"" << " : " << isHealfy << std::endl;
+    fl.close();
 }

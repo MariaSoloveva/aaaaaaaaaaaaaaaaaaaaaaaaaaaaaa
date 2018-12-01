@@ -1,28 +1,43 @@
-#ifndef EVOLUTION_PIXEL_HPP
-#define EVOLUTION_PIXEL_HPP
+#ifndef PIXEL_HPP
+#define PIXEL_HPP
 
+#include <algorithm>
 #include "Hexagon.hpp"
+#include "Food.hpp"
 #include "Map.hpp"
+#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
 
+using Json = nlohmann::json;
 
 class Pixel
         : public Hexagon
 {
+    Brain brain;
+    unsigned int numberOfLifeIterations;
 public:
     Pixel();
     Pixel(const double, const double, const size_t, const size_t);
-    Pixel(const sf::CircleShape hexagon1, const float xNew, const float yNew, const size_t CellStrNew,
-            const size_t CellColNew, const double lifesNew, Brain* brainNew);
-    ~Pixel();
-    Pixel& operator=(const Pixel& hexagon1);
-    void Swap(Pixel&);
-    std::vector<Hexagon*> LookArond(Map&);
-    void Update(Map& map);
-    void EatingFood(Hexagon* hexagon1);
-    void Move(Hexagon* hexagon1);
+    Pixel(const double, const double, const size_t, const size_t, Brain);
+    Pixel(const float xNew, const float yNew, const size_t CellStrNew,
+          const size_t CellColNew, const double lifesNew, Brain brainNew);
+    Pixel(const float xNew, const float yNew, const size_t CellStrNew,
+          const size_t CellColNew, const double lifesNew, Brain brainNew, double medicineNew);
+    Pixel(const Pixel&);
+     ~Pixel() = default;
+    Pixel& operator=(const Pixel&);
+    std::vector<Hexagon*> LookArond(Map&) const;
+    void Update(Map&);
+    void EatingFood(Hexagon*, Map&);
+    void Move(Map&, Hexagon*);
     void Reproduction(Map&);
-    bool IsAlive();
-    Hexagon* ViewNearbyCells(Map& map, const Type& tmp);
+    Hexagon* ViewNearbyCells(Map&, const Type&);
+    void SaveToFile(const std::string&) const;
+
+    Brain GetBrain() const override;
+    unsigned int GetNumberOfLifeIterations() const;
+    void SetBrain(const Brain&) override;
+    void ResetNumberOfLifeIterations() override;
+    void Print(sf::RenderWindow*) const override;
 };
 
-#endif //EVOLUTION_PIXEL_HPP
+#endif
