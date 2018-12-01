@@ -395,7 +395,6 @@ void Map::UploadFromFile()
 void Map::Print(sf::RenderWindow* window) const
 {
     window->clear();
-    boost::recursive_mutex::scoped_lock lock{mutex};
     for (size_t i = 1; i < heightInCells; ++i)
     {
         for (size_t j = 0; j < widthInCells; ++j)
