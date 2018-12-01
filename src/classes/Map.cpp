@@ -221,7 +221,6 @@ Map& Map::operator=(Map&& mapOld)
 }
 void Map::Update()
 {
-    size_t size = organisms.size();
     for (int i = organisms.size() -  1; i >= 0; --i)
     {
         if (organisms[i]->IsAlive())
