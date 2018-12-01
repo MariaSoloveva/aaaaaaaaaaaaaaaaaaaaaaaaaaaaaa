@@ -27,7 +27,14 @@ file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
 # CLASSES
 file(GLOB_RECURSE CLASSES_SOURCES src/classes/*.cpp)
 add_library(classes ${CLASSES_SOURCES})
-target_link_libraries(classes ${SFML_LIBS})
+hunter_add_package(Boost COMPONENTS system filesystem)
+find_package(Boost CONFIG REQUIRED system filesystem)
+
+string(APPEND CMAKE_CXX_FLAGS " -pedantic -Wall -Wextra")
+string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
+string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
+
+target_link_libraries(classes ${SFML_LIBS} Boost::filesystem Boost::system)
 target_include_directories(classes PUBLIC src -fsanitize=address)
 target_include_directories(classes PUBLIC vendor/sfml/include)
 
@@ -47,17 +54,6 @@ target_link_libraries(tests classes)
 target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
-
-hunter_add_package(Boost COMPONENTS system filesystem)
-find_package(Boost CONFIG REQUIRED system filesystem)
-
-string(APPEND CMAKE_CXX_FLAGS " -pedantic -Wall -Wextra")
-string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
-string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
-
-target_link_libraries(${EXECUTABLE_NAME}
-        Boost::filesystem
-        Boost::system)
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 include_directories(${SFML_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
