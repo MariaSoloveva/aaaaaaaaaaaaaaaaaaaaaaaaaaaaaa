@@ -55,7 +55,5 @@ target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
-include_directories(${SFML_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
-target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
 
 add_custom_target(NAME run_tests COMMAND tests)
