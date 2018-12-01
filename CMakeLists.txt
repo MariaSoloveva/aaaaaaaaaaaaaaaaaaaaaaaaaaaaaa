@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.9.2)
 project(Evolution::Edit)
 
+set(EXECUTABLE_NAME "Evolution")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS 
@@ -37,5 +38,26 @@ target_link_libraries(tests ${GTEST_LIBS})
 target_link_libraries(tests classes)
 target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
+
+include("vendor/gate/cmake/HunterGate.cmake")
+
+huntergate(
+        URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
+        SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
+)
+
+hunter_add_package(Boost COMPONENTS system filesystem)
+find_package(Boost CONFIG REQUIRED system filesystem)
+
+string(APPEND CMAKE_CXX_FLAGS " -pedantic -Wall -Wextra")
+string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
+string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
+
+target_link_libraries(${EXECUTABLE_NAME}
+        Boost::filesystem
+        Boost::system)
+add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
+include_directories(${SFML_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+target_link_libraries(${EXECUTABLE_NAME} ${SFML_LIBRARIES})
 
 add_custom_target(NAME run_tests COMMAND tests)
