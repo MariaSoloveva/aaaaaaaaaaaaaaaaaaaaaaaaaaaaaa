@@ -1,4 +1,12 @@
 cmake_minimum_required(VERSION 3.9.2)
+
+include("vendor/gate/cmake/HunterGate.cmake")
+
+huntergate(
+        URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
+        SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
+)
+
 project(Evolution::Edit)
 
 set(EXECUTABLE_NAME "Evolution")
@@ -39,12 +47,6 @@ target_link_libraries(tests classes)
 target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
-include("vendor/gate/cmake/HunterGate.cmake")
-
-huntergate(
-        URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
-        SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
-)
 
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
