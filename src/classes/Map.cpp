@@ -218,6 +218,7 @@ Map& Map::operator=(Map&& mapOld)
 {
     map = std::move(mapOld.map);
     organisms = std::move(mapOld.organisms);
+    return *this;
 }
 void Map::Update()
 {
