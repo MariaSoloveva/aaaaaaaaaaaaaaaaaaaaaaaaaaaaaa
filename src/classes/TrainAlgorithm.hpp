@@ -2,7 +2,7 @@
 #define TRAINALGORITHM_H_
 
 #include <vector>
-#include </vendor/json/json.hpp>
+#include <../../../vendor/json/json.hpp>
 
 using Json = nlohmann::json;
 
