@@ -3,7 +3,6 @@
 #include <../../../vendor/json/json.hpp>
 #include "Pixel.hpp"
 
-boost::recursive_mutex mutex;
 
 using Json = nlohmann::json;
 
