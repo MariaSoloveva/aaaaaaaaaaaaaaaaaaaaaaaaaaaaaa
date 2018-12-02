@@ -150,13 +150,13 @@ Map::Map(const std::string& path)
     if (!boost::filesystem::exists(path_to_file))
         throw std::runtime_error("Error in uploading files");
     std::ifstream file(path_to_file.string());
-    std::string s;
-    s.clear();
+    std::string str;
+    str.clear();
     std::string line;
     while (std::getline(file, line))
-        s += line;
+        str += line;
     file.close();
-    Json object = Json::parse(s);
+    Json object = Json::parse(str);
     evolutionNumber = object["Evolution"];
     for (auto& s : object["Static Pixels"])
     {
