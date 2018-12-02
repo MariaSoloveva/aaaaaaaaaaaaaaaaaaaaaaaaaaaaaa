@@ -229,7 +229,7 @@ unsigned int Pixel::GetNumberOfLifeIterations() const
     return numberOfLifeIterations;
 }
 
-const Brain Pixel::GetBrain() const
+const Brain& Pixel::GetBrain() const
 {
     return brain;
 }
