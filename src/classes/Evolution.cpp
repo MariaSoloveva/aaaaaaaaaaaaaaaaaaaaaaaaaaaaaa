@@ -17,8 +17,7 @@ Evolution::Evolution(const Evolution& ev)
 }
 
 Evolution::Evolution(Evolution&& ev)
-    :    threads(std::move(ev.threads)),
-         map(std::move(ev.map)),
+    :    map(std::move(ev.map)),
          keyboard(std::move(ev.keyboard))
 {
      window.create(sf::VideoMode(ev.map.GetWidth(), ev.map.GetHeight()), "Evolution");
