@@ -71,7 +71,7 @@ double Hexagon::GetMedicine() const
     return medicine;
 }
 
-Brain Hexagon::GetBrain() const
+const Brain& Hexagon::GetBrain() const
 {}
 
 unsigned int Hexagon::GetNumberOfLifeIterations() const
