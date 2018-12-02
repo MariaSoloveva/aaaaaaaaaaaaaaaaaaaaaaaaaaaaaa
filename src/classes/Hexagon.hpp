@@ -44,7 +44,7 @@ public:
     Type GetType() const;
     double GetLifes() const;
     double GetMedicine() const;
-    virtual Brain GetBrain() const;
+    virtual const Brain& GetBrain() const;
     virtual unsigned int GetNumberOfLifeIterations() const;
 
     virtual void SetBrain(const Brain&);
