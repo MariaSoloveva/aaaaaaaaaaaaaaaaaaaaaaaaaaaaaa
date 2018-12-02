@@ -26,10 +26,10 @@ Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew),
              brain(brainNew),
              numberOfLifeIterations(1)
-
 {
+    lifes = lifesNew;
     medicine = medicineNew;
-    if (medicine >= 0)
+    if (medicine)
         isHealfy = true;
     else
         isHealfy = false;
@@ -100,7 +100,7 @@ std::vector<Hexagon*> Pixel::LookArond(Map& map) const
         else
             dir.push_back(nullptr);
 
-        if (cellStr % 2 == 1 && cellStr > 0 && cellCol > 0 )
+        if (cellStr % 2 == 1 && cellStr > 0 && cellCol > 0)
             dir.push_back(map[cellStr - 1][cellCol + 1]);
         else
             dir.push_back(nullptr);
@@ -119,6 +119,7 @@ std::vector<Hexagon*> Pixel::LookArond(Map& map) const
 void Pixel::Update(Map& map)
 {
     std::vector<Hexagon*> vec = LookArond(map);
+    brain.UpdateStateOfLife(lifes);
     Hexagon* moveTo = brain.GetSolution(vec);
     Move(map, moveTo);
     ++numberOfLifeIterations;
@@ -228,7 +229,7 @@ unsigned int Pixel::GetNumberOfLifeIterations() const
     return numberOfLifeIterations;
 }
 
-Brain Pixel::GetBrain() const
+const Brain& Pixel::GetBrain() const
 {
     return brain;
 }
@@ -257,18 +258,6 @@ void Pixel::SaveToFile(const std::string& path_to_file) const
     fl.close();
     brain.SaveNetworkState(path_to_file);
 }
-
-/*void Pixel::SaveToFile(const std::string& path_to_file) const
-{
-    std::fstream fl(path_to_file, std::ios::app);
-    fl << "    " << "\"x\"" << " : " << x << "," << std::endl;
-    fl << "    " << "\"y\"" << " : " << y << "," << std::endl;
-    fl << "    " << "\"type\"" << " : " << type << "," << std::endl;
-    fl << "    " << "\"medicine\"" << " : " << medicine << "," << std::endl;
-    fl << "    " << "\"isHealfy\"" << " : " << isHealfy << "," << std::endl;
-    fl.close();
-    brain.SaveNetworkState(path_to_file);
-}*/
 
 void Pixel::Print(sf::RenderWindow* window) const
 {

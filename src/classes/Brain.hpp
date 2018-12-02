@@ -10,7 +10,7 @@
 
 #include "NeuronCreator.hpp"
 #include "TrainAlgorithm.hpp"
-#include <../../../vendor/json/json.hpp>
+#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
 
 using Json = nlohmann::json;
 
@@ -21,7 +21,8 @@ class TrainAlgorithm;
 class Brain
 {
 public:
-    explicit Brain(const size_t &inInputs = 10, const size_t &inOutputs = 7, const size_t &inNumOfHiddenLayers = 2,
+
+    Brain(const size_t &inInputs = 10, const size_t &inOutputs = 7, const size_t &inNumOfHiddenLayers = 2,
                   const size_t &inNumOfNeuronsInHiddenLayers = 10);
     Brain(const Json&);
     ~Brain() = default;
@@ -40,7 +41,7 @@ public:
 
     void ResetWeights() const;
 
-    const std::vector<bool> CreateVectorInput(const std::vector<Hexagon*>&) const;
+    const std::vector<double> CreateVectorInput(const std::vector<Hexagon*>&) const;
 
     double Think(const std::vector<Hexagon*>&) const;
 
@@ -48,7 +49,7 @@ public:
 
     void SaveNetworkState(const std::string&) const;
 
-    void UploadNetworkState(const std::string&);
+    void UpdateStateOfLife(double);
 
 private:
     NeuronCreator* neuronCreator;
@@ -57,7 +58,7 @@ private:
     size_t inputs;
     size_t outputs;
     size_t hidden;
-
+    double stateOfLife;
     int intrand(int a, int b) const
     {
         static std::default_random_engine e;

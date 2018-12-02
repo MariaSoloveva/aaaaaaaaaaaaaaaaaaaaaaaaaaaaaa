@@ -270,5 +270,6 @@ void Brain::SaveNetworkState(const std::string& path_to_file) const
 
 void Brain::UpdateStateOfLife(double newState)
 {
+
     stateOfLife = 1 - GetLayer(1).at(1)->Process(newState);
 }

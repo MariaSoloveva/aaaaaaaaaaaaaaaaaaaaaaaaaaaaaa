@@ -34,19 +34,14 @@ public:
         row.push_back(hex);
     }
 
-    double getPositionX(size_t index)
-    {
-        return row[index]->GetX();
-    }
-
-    double getPositionY(size_t index)
-    {
-        return row[index]->GetY();
-    }
-
     void erase(size_t index)
     {
         row.erase(row.begin() + index);
+    }
+
+    void insert(Hexagon* hex, size_t index)
+    {
+        row.insert(row.begin() + index, hex);
     }
 
     std::vector<Hexagon*>::iterator begin()
@@ -54,10 +49,6 @@ public:
         return row.begin();
     }
 
-    void insert(Hexagon* hex, size_t index)
-    {
-        row.insert(row.begin() + index, hex);
-    }
     Hexagon* back()
     {
         return row.back();
@@ -108,6 +99,7 @@ public:
     void SaveToFile() const;
     void UploadFromFile();
     void Print(sf::RenderWindow*) const;
+
 private:
     static const unsigned int width = 2000;
     static const unsigned int height = 1000;
@@ -116,14 +108,8 @@ private:
     std::vector<Row> map;
     std::vector<Hexagon*> organisms;
     std::vector<Hexagon*> staticOrganisms;
-    unsigned int evolutionNumber = 1;
+    int evolutionNumber = 1;
     int timeToSleep = 100;
-    int intrand(int a, int b)
-    {
-        static std::default_random_engine e;
-        static std::uniform_int_distribution<> dis(a, b);
-        return dis(e);
-    }
 };
 
 #endif

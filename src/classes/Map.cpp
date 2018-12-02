@@ -1,8 +1,10 @@
 #include "Map.hpp"
 #include "Food.hpp"
-#include <../../../vendor/json/json.hpp>
+#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <boost/thread/recursive_mutex.hpp>
 #include "Pixel.hpp"
 
+boost::recursive_mutex mutex;
 
 using Json = nlohmann::json;
 
@@ -49,7 +51,6 @@ Map::Map(Map&& mapToMove)
 
 void Map::MultiplyPixels(int numberOfPixels)
 {
-    std::srand(std::time(nullptr));
     for (int inner = 0; inner < numberOfPixels; ++inner)
     {
         bool flag = false;
@@ -71,7 +72,6 @@ void Map::MultiplyPixels(int numberOfPixels)
 
 void Map::CreateFood(int numberOfFood)
 {
-    std::srand(std::time(nullptr));
     for (int inner = 0; inner < numberOfFood; ++inner)
     {
         bool flag = false;
@@ -92,7 +92,6 @@ void Map::CreateFood(int numberOfFood)
 
 void Map::SetPoison(int numberOfPoison)
 {
-    std::srand(std::time(nullptr));
     for (int inner = 0; inner < numberOfPoison; ++inner)
     {
         bool flag = false;
@@ -129,6 +128,7 @@ void Map::ClonePixels(Map& mapNew, const std::vector<Hexagon*>& vectorOfNewOrgan
         mapNew.organisms[innerOfOrganisms]->SetLifes(99);
         mapNew.organisms[innerOfOrganisms]->ResetNumberOfLifeIterations();
         mapNew.organisms[innerOfOrganisms]->ResetMedicine();
+        mapNew.SetOrganism(mapNew.organisms[innerOfOrganisms]);
         bool flag = false;
         while (!flag)
         {
@@ -139,9 +139,8 @@ void Map::ClonePixels(Map& mapNew, const std::vector<Hexagon*>& vectorOfNewOrgan
                 Brain brain = mapNew.organisms[innerOfOrganisms]->GetBrain();
                 brain.Train();
                 Pixel* hex = new Pixel(map[xInCells][yInCells]->GetX(), map[xInCells][yInCells]->GetY(), (size_t) xInCells, (size_t) yInCells, brain);
-                map[xInCells].erase(yInCells);
-                map[xInCells].insert(hex, yInCells);
                 mapNew.organisms.push_back(hex);
+                mapNew.SetOrganism(mapNew.organisms.back());
                 flag = true;
             }
         }
@@ -150,17 +149,18 @@ void Map::ClonePixels(Map& mapNew, const std::vector<Hexagon*>& vectorOfNewOrgan
 
 Map::Map(const std::string& path)
 {
-    boost::filesystem::path path_to_file = path + "/" + "Map";
+    boost::filesystem::path path_to_file = path + "/" + "Map " + std::to_string(10);
     if (!boost::filesystem::exists(path_to_file))
         throw std::runtime_error("Error in uploading files");
     std::ifstream file(path_to_file.string());
     std::string s;
+    s.clear();
     std::string line;
     while (std::getline(file, line))
         s += line;
     file.close();
     Json object = Json::parse(s);
-    evolutionNumber = static_cast<unsigned int>(object["Evolution"]);
+    evolutionNumber = object["Evolution"];
     for (auto& s : object["Static Pixels"])
     {
         auto cellStr = static_cast<size_t>(s["cellStr"]);
@@ -225,7 +225,6 @@ Map& Map::operator=(Map&& mapOld)
     evolutionNumber = std::move(mapOld.evolutionNumber);
     return *this;
 }
-
 void Map::Update()
 {
     for (int i = organisms.size() -  1; i >= 0; --i)
@@ -323,7 +322,8 @@ void Map::DecreaseTimesToSleep(int x)
 
 void Map::SetOrganism(Hexagon* org)
 {
-    organisms.push_back(org);
+    map[org->GetCellStr()].erase(org->GetCellCol());
+    map[org->GetCellStr()].insert(org, org->GetCellCol());
 }
 
 void Map::Swap(Hexagon* hex1, Hexagon* hex2)
@@ -402,6 +402,7 @@ void Map::UploadFromFile()
 void Map::Print(sf::RenderWindow* window) const
 {
     window->clear();
+    boost::recursive_mutex::scoped_lock lock{mutex};
     for (size_t i = 1; i < heightInCells; ++i)
     {
         for (size_t j = 0; j < widthInCells; ++j)
