@@ -10,6 +10,7 @@ Brain::Brain(const size_t& inInputs, const size_t& inOutputs, const size_t& inNu
 		outputs = inOutputs;
 		hidden  = inNumOfNeuronsInHiddenLayers;
 
+        stateOfLife = 99;
         NetworkFunction* InputNeuronsFunc = new Sigmoid;
 		NetworkFunction* OutputNeuronsFunc = new Sigmoid;
 
@@ -53,6 +54,7 @@ Brain::Brain(const Json& object)
     inputs = static_cast<size_t>(object["brain"]["inputs"]);
     outputs = static_cast<size_t>(object["brain"]["outputs"]);
     hidden = static_cast<size_t>(object["brain"]["hidden"]);
+
     if(inputs > 0 || outputs > 0)
     {
         NetworkFunction* InputNeuronsFunc = new Sigmoid;
@@ -103,6 +105,7 @@ Brain& Brain::operator=(const Brain& newBrain)
         outputs = newBrain.outputs;
         hidden = newBrain.hidden;
     }
+    return *this;
 }
 
 std::vector<Neuron*> Brain::GetLayer(size_t index) const
@@ -124,6 +127,7 @@ std::vector<Neuron*> Brain::GetInputLayer() const
 {
     return layers[0];
 }
+
 size_t Brain::GetInputs() const
 {
     return inputs;
@@ -136,26 +140,29 @@ void Brain::Train()
 
 //  Функция принимает на вход вектор указателей на объекты, окружающиx пикселя
 //  Если рядом стоит другой пиксель, то мы не можем перейти на клетку, на которой он стоит
-const std::vector<bool> Brain::CreateVectorInput(const std::vector<Hexagon*>& SurroundingObjects) const
+const std::vector<double> Brain::CreateVectorInput(const std::vector<Hexagon*>& SurroundingObjects) const
 {
-    std::vector<bool> input;
+    std::vector<double > input;
     for (auto& a : SurroundingObjects)
     {
-        std::map<Hexagon::Type, bool> values = {{Hexagon::Type::FOOD, 0},{Hexagon::Type::POISON, 0}, {Hexagon::Type::PIXEL, 0}};
+        std::map<Hexagon::Type, double > values = {{Hexagon::Type::FOOD, 0},{Hexagon::Type::POISON, 0}, {Hexagon::Type::PIXEL, 0}};
         if (a != nullptr)
         {
             if (a->GetType() != Hexagon::Type::WATER)
-                values[a->GetType()] = true;
+                values[a->GetType()] = 1;
         }
         for (auto& b : values)
             input.push_back(b.second);
     }
     return input;
 }
+
 double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3) const
 {
-    std::vector<bool> input = CreateVectorInput(surroundingObjects3);
-    std::srand(std::time(nullptr)); /// FIXME :  Добавь значение уровня жизни
+    std::vector<double> input = CreateVectorInput(surroundingObjects3);
+    input.push_back(stateOfLife);
+    //  input.push_back(sigmoid);
+    std::srand(std::time(nullptr));
     double result = 0;
     for (size_t i = 0; i < GetLayer(1).at(0)->GetNumOfInputLinks(); ++i)
     {
@@ -191,8 +198,6 @@ double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3) const
     }
     return GetLayer(1).at(1)->Process(sumresult);
 }
-
-
 
 Hexagon* Brain::GetSolution(const std::vector<Hexagon*>& surroundingObjects6) const
 {
@@ -261,4 +266,9 @@ void Brain::SaveNetworkState(const std::string& path_to_file) const
     fl << std::endl << "\t\t\t\t\t" << "]" << std::endl;
 	fl << "\t\t\t\t}" << std::endl;
 	fl.close();
+}
+
+void Brain::UpdateStateOfLife(double newState)
+{
+    stateOfLife = 1 - GetLayer(1).at(1)->Process(newState);
 }
