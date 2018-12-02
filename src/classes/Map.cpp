@@ -36,13 +36,15 @@ Map::Map()  //  Конструктор создает поле, состояще
 Map::Map(const Map& mapToCopy)
     :    map(mapToCopy.map),
          organisms(mapToCopy.organisms),
-         staticOrganisms(mapToCopy.staticOrganisms)
+         staticOrganisms(mapToCopy.staticOrganisms),
+         evolutionNumber(mapToCopy.evolutionNumber)
 {}
 
 Map::Map(Map&& mapToMove)
     :    map(mapToMove.map),
          organisms(mapToMove.organisms),
-         staticOrganisms(std::move(mapToMove.staticOrganisms))
+         staticOrganisms(std::move(mapToMove.staticOrganisms)),
+         evolutionNumber(std::move(mapToMove.evolutionNumber))
 {}
 
 void Map::MultiplyPixels(int numberOfPixels)
@@ -210,6 +212,7 @@ Map& Map::operator=(const Map& mapOld)
         map = mapOld.map;
         organisms = mapOld.organisms;
         staticOrganisms = mapOld.staticOrganisms;
+        evolutionNumber = mapOld.evolutionNumber;
     }
     return *this;
 }
@@ -218,8 +221,11 @@ Map& Map::operator=(Map&& mapOld)
 {
     map = std::move(mapOld.map);
     organisms = std::move(mapOld.organisms);
+    staticOrganisms = std::move(mapOld.staticOrganisms);
+    evolutionNumber = std::move(mapOld.evolutionNumber);
     return *this;
 }
+
 void Map::Update()
 {
     for (int i = organisms.size() -  1; i >= 0; --i)
