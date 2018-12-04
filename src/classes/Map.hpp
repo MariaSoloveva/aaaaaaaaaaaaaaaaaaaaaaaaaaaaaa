@@ -10,7 +10,6 @@
 #include <SFML/Graphics.hpp>
 #include "Hexagon.hpp"
 
-
 class Pixel;
 
 class Row
