@@ -16,9 +16,6 @@ public:
         medicine = Medicine;
     }
 
-    void Update(Map&) override
-    {}
-
     ~Food() = default;
 
     void Print(sf::RenderWindow* window) const override
@@ -41,8 +38,7 @@ public:
     {
         medicine = 0;
     }
-    void Update(Map& map) override
-    {}
+
     ~Water() = default;
 
     void Print(sf::RenderWindow* window) const override
@@ -65,8 +61,6 @@ public:
     {
         medicine = Medicine;
     }
-    void Update(Map& map) override
-    {}
     ~Poison() = default;
 
     void Print(sf::RenderWindow* window) const override
