@@ -12,7 +12,7 @@ class Button
 public:
     Button() = default;
     ~Button() = default;
-    Button(const float&, const float&, const float&);
+    Button(const float, const float, const float);
 
     double GetX();
     double GetY();
@@ -27,7 +27,7 @@ public:
     void Print(sf::RenderWindow* window);
 
 private:
-    sf::CircleShape button;
+    sf::CircleShape button = sf::CircleShape(20, 3);
     float X;
     float Y;
     sf::Color Color;
