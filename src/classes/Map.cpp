@@ -1,6 +1,7 @@
 #include "Map.hpp"
 #include "Food.hpp"
-#include <../../../vendor/json/json.hpp>
+#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <boost/thread/recursive_mutex.hpp>
 #include "Pixel.hpp"
 
 using Json = nlohmann::json;
@@ -43,7 +44,7 @@ Map::Map(Map&& mapToMove)
     :    map(mapToMove.map),
          organisms(mapToMove.organisms),
          staticOrganisms(std::move(mapToMove.staticOrganisms)),
-         evolutionNumber(std::move(mapToMove.evolutionNumber))
+         evolutionNumber(mapToMove.evolutionNumber)
 {}
 
 void Map::MultiplyPixels(int numberOfPixels)
@@ -107,15 +108,16 @@ void Map::SetPoison(int numberOfPoison)
     }
 }
 
-void Map::RecreateMap(const std::vector<Hexagon*>& vectorOfNewOrganisms)
+void Map::RecreateMap(const std::vector<Pixel*>& vectorOfNewOrganisms)
 {
     Map mapNew;
+    mapNew.evolutionNumber = evolutionNumber;
     ClonePixels(mapNew, vectorOfNewOrganisms);
     *this = mapNew;
 
 }
 
-void Map::ClonePixels(Map& mapNew, const std::vector<Hexagon*>& vectorOfNewOrganisms)
+void Map::ClonePixels(Map& mapNew, const std::vector<Pixel*>& vectorOfNewOrganisms)
 {
     std::srand(std::time(nullptr));
     mapNew.organisms.clear();
@@ -146,17 +148,17 @@ void Map::ClonePixels(Map& mapNew, const std::vector<Hexagon*>& vectorOfNewOrgan
 
 Map::Map(const std::string& path)
 {
-    boost::filesystem::path path_to_file = path + "/" + "Map " + std::to_string(10);
+    boost::filesystem::path path_to_file = path + "/" + "Map " + std::to_string(19650);
     if (!boost::filesystem::exists(path_to_file))
         throw std::runtime_error("Error in uploading files");
     std::ifstream file(path_to_file.string());
-    std::string str;
-    str.clear();
+    std::string s;
+    s.clear();
     std::string line;
     while (std::getline(file, line))
-        str += line;
+        s += line;
     file.close();
-    Json object = Json::parse(str);
+    Json object = Json::parse(s);
     evolutionNumber = object["Evolution"];
     for (auto& s : object["Static Pixels"])
     {
@@ -195,8 +197,9 @@ Map::Map(const std::string& path)
             {
                 auto medicine = static_cast<double>(obj["medicine"]);
                 auto lifes = static_cast<double>(obj["lifes"]);
-                map[cellStr].push_back(new Pixel(x, y, cellStr, cellCol, lifes, Brain(obj), medicine));
-                organisms.push_back(map[cellStr][cellCol]);
+                Pixel* hex = new Pixel(x, y, cellStr, cellCol, lifes, Brain(obj), medicine);
+                map[cellStr].push_back(hex);
+                organisms.push_back(hex);
             }
         }
     }
@@ -277,12 +280,12 @@ size_t Map::GetHeightInCells() const
     return heightInCells;
 }
 
-std::vector<Hexagon*> Map::GetOrganisms() const
+std::vector<Pixel*> Map::GetOrganisms() const
 {
     return organisms;
 }
 
-std::vector<Hexagon*> Map::GetStaticOrganisms() const
+std::vector<Pixel*> Map::GetStaticOrganisms() const
 {
     return staticOrganisms;
 }
@@ -317,7 +320,7 @@ void Map::DecreaseTimesToSleep(int x)
     timeToSleep -= x;
 }
 
-void Map::SetOrganism(Hexagon* org)
+void Map::SetOrganism(Pixel* org)
 {
     map[org->GetCellStr()].erase(org->GetCellCol());
     map[org->GetCellStr()].insert(org, org->GetCellCol());

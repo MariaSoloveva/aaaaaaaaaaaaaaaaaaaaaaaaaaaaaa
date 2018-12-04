@@ -5,7 +5,7 @@
 #include "Hexagon.hpp"
 #include "Food.hpp"
 #include "Map.hpp"
-#include <../../../vendor/json/json.hpp>
+#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
 
 using Json = nlohmann::json;
 
@@ -31,7 +31,7 @@ public:
     void Reproduction(Map&);
     Hexagon* ViewNearbyCells(Map&, const Type&);
     unsigned int GetNumberOfLifeIterations() const;
-    const Brain& GetBrain() const override;
+    const Brain& GetBrain() const;
     void SetBrain(const Brain&) override;
     void ResetNumberOfLifeIterations() override;
     void SaveToFile(const std::string&) const;

@@ -8,17 +8,7 @@ Hexagon::Hexagon(const Type& type1, double xNew, double yNew, size_t cellStrNew,
              y(yNew),
              cellStr(cellStrNew),
              cellCol(cellColNew),
-             lifes(99)
-{}
-
-Hexagon::Hexagon(const Type& type1, const float xNew, const float yNew, const size_t cellStrNew,
-                 const size_t cellColNew, const double lifesNew)
-        :    type(type1),
-             x(xNew),
-             y(yNew),
-             cellStr(cellStrNew),
-             cellCol(cellColNew),
-             lifes(lifesNew)
+             lifes(40)
 {}
 
 Hexagon& Hexagon::operator=(const Hexagon* hex)
@@ -71,16 +61,8 @@ double Hexagon::GetMedicine() const
     return medicine;
 }
 
-const Brain& Hexagon::GetBrain() const
-{}
 
-unsigned int Hexagon::GetNumberOfLifeIterations() const
-{}
-
-void Hexagon::SetNumberOfLifeIterations(unsigned int)
-{}
-
-void Hexagon::ResetNumberOfLifeIterations()
+void Hexagon::Update(Map&)
 {}
 
 void Hexagon::SetX(double newX)
@@ -120,6 +102,12 @@ void Hexagon::SetMedicine(double newMedicine)
 {
     medicine = newMedicine;
 }
+
+void Hexagon::SetNumberOfLifeIterations(unsigned int)
+{}
+
+void Hexagon::ResetNumberOfLifeIterations()
+{}
 
 void Hexagon::ResetMedicine()
 {

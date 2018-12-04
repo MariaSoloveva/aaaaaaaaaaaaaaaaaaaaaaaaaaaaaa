@@ -4,6 +4,7 @@ Pixel::Pixel()
 {
     numberOfLifeIterations = 1;
     brain = Brain();
+    lifes = 99;
 }
 
 Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, const size_t CellColNew)
@@ -11,6 +12,7 @@ Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, cons
 {
     numberOfLifeIterations = 1;
     medicine = 0;
+    lifes = 99;
 }
 
 Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, const size_t CellColNew, Brain newBrain)
@@ -19,6 +21,7 @@ Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, cons
 {
     numberOfLifeIterations = 1;
     medicine = 0;
+    lifes = 99;
 }
 
 Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
@@ -175,10 +178,11 @@ void Pixel::Reproduction(Map& map)
     dir = ViewNearbyCells(map, Type::WATER);
     if (dir != nullptr)
     {
+        Pixel* hex = new Pixel(dir->GetX(), dir->GetY(), dir->GetCellStr(), dir->GetCellCol(), lifes,
+                               brain);
         map[dir->GetCellStr()].erase(dir->GetCellCol());
-        map[dir->GetCellStr()].insert(new Pixel(dir->GetX(), dir->GetY(), dir->GetCellStr(), dir->GetCellCol(), lifes,
-                                                brain), dir->GetCellCol());
-        map.SetOrganism(map[dir->GetCellStr()][dir->GetCellCol()]);
+        map[dir->GetCellStr()].insert(hex, dir->GetCellCol());
+        map.SetOrganism(hex);
     }
 }
 

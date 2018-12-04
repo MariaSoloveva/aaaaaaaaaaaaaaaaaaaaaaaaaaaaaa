@@ -73,8 +73,8 @@ public:
     void MultiplyPixels(int);
     void CreateFood(int);
     void SetPoison(int);
-    void RecreateMap(const std::vector<Hexagon*>&);
-    void ClonePixels(Map&, const std::vector<Hexagon*>&);
+    void RecreateMap(const std::vector<Pixel*>&);
+    void ClonePixels(Map&, const std::vector<Pixel*>&);
 
     unsigned int GetWidth() const;
     unsigned int GetHeight() const;
@@ -82,8 +82,8 @@ public:
     size_t GetWidthInCells() const;
     size_t GetHeightInCells() const;
 
-    std::vector<Hexagon*> GetOrganisms() const;
-    std::vector<Hexagon*> GetStaticOrganisms() const;
+    std::vector<Pixel*> GetOrganisms() const;
+    std::vector<Pixel*> GetStaticOrganisms() const;
     size_t GetNumberOfAliveOrganisms() const;
 
     unsigned int GetEvolutionNumber() const;
@@ -94,7 +94,7 @@ public:
     void IncreaseTimesToSleep(int);
     void DecreaseTimesToSleep(int);
 
-    void SetOrganism(Hexagon*);
+    void SetOrganism(Pixel*);
     void Swap(Hexagon*, Hexagon*);
     void SaveToFile() const;
     void UploadFromFile();
@@ -106,8 +106,8 @@ private:
     static const size_t widthInCells = 94;
     static const size_t heightInCells = 60;
     std::vector<Row> map;
-    std::vector<Hexagon*> organisms;
-    std::vector<Hexagon*> staticOrganisms;
+    std::vector<Pixel*> organisms;
+    std::vector<Pixel*> staticOrganisms;
     int evolutionNumber = 1;
     int timeToSleep = 100;
 };
