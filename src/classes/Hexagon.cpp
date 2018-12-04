@@ -61,10 +61,6 @@ double Hexagon::GetMedicine() const
     return medicine;
 }
 
-
-void Hexagon::Update(Map&)
-{}
-
 void Hexagon::SetX(double newX)
 {
     x = newX;
