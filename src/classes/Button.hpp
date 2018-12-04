@@ -27,7 +27,7 @@ public:
     void Print(sf::RenderWindow* window);
 
 private:
-    sf::CircleShape button = sf::CircleShape(20, 3);
+    sf::CircleShape button;
     float X;
     float Y;
     sf::Color Color;
