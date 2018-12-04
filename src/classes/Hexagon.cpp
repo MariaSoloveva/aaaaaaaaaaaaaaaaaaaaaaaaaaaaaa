@@ -85,8 +85,6 @@ void  Hexagon::SetCellCol(size_t newCellCol)
     cellCol = newCellCol;
 }
 
-void Hexagon::SetBrain(const Brain&)
-{}
 
 void Hexagon::SetType(Type& typeNew)
 {
@@ -103,11 +101,6 @@ void Hexagon::SetMedicine(double newMedicine)
     medicine = newMedicine;
 }
 
-void Hexagon::SetNumberOfLifeIterations(unsigned int)
-{}
-
-void Hexagon::ResetNumberOfLifeIterations()
-{}
 
 void Hexagon::ResetMedicine()
 {
