@@ -28,7 +28,7 @@ public:
 
     virtual ~Hexagon() = default;
 
-    Hexagon(const Type&, double, double, size_t, size_t);
+    Hexagon(const Type, double, double, size_t, size_t);
     Hexagon& operator=(const Hexagon*);
 
     double GetX() const;
