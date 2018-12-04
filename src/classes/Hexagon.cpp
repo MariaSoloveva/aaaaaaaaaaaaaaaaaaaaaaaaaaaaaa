@@ -2,7 +2,7 @@
 #include "Map.hpp"
 
 
-Hexagon::Hexagon(const Type& type1, double xNew, double yNew, size_t cellStrNew, size_t cellColNew)
+Hexagon::Hexagon(const Type type1, double xNew, double yNew, size_t cellStrNew, size_t cellColNew)
         :    type(type1),
              x(xNew),
              y(yNew),
