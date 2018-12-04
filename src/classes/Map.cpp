@@ -1,6 +1,5 @@
 #include "Map.hpp"
 #include "Food.hpp"
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include "Pixel.hpp"
 
@@ -148,7 +147,7 @@ void Map::ClonePixels(Map& mapNew, const std::vector<Pixel*>& vectorOfNewOrganis
 
 Map::Map(const std::string& path)
 {
-    boost::filesystem::path path_to_file = path + "/" + "Map " + std::to_string(19650);
+    boost::filesystem::path path_to_file = path + "/" + "Map ";
     if (!boost::filesystem::exists(path_to_file))
         throw std::runtime_error("Error in uploading files");
     std::ifstream file(path_to_file.string());
