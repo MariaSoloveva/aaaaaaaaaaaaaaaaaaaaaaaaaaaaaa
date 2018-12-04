@@ -194,7 +194,6 @@ Map::Map(const std::string& path)
             }
             else if (obj["type"] == 4)
             {
-                auto medicine = static_cast<double>(obj["medicine"]);
                 auto lifes = static_cast<double>(obj["lifes"]);
                 Pixel* hex = new Pixel(x, y, cellStr, cellCol, lifes, Brain(obj), medicine);
                 map[cellStr].push_back(hex);
