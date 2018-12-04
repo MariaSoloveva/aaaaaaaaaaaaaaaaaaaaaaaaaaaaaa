@@ -32,8 +32,8 @@ public:
     Hexagon* ViewNearbyCells(Map&, const Type&);
     unsigned int GetNumberOfLifeIterations() const;
     const Brain& GetBrain() const;
-    void SetBrain(const Brain&) override;
-    void ResetNumberOfLifeIterations() override;
+    void SetBrain(const Brain&);
+    void ResetNumberOfLifeIterations();
     void SaveToFile(const std::string&) const;
     void Print(sf::RenderWindow*) const override;
 };
