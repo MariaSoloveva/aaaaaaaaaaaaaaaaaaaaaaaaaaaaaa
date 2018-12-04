@@ -38,9 +38,6 @@ public:
     Type GetType() const;
     double GetLifes() const;
     double GetMedicine() const;
-
-    virtual void Update(Map&);
-
     void SetX(double);
     void SetY(double);
     void SetCellStr(size_t);
