@@ -48,9 +48,6 @@ public:
     void SetType(Type&);
     void SetLifes(double);
     void SetMedicine(double);
-    virtual void SetBrain(const Brain&);
-    virtual void SetNumberOfLifeIterations(unsigned int);
-    virtual void ResetNumberOfLifeIterations();
     void ResetMedicine();
 
     bool IsAlive();
