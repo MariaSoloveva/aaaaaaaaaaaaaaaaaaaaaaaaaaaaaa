@@ -22,7 +22,8 @@ public:
         FOOD = 1,
         WATER,
         POISON,
-        PIXEL
+        PIXEL,
+        WALL
     };
     Hexagon() = default;
 
