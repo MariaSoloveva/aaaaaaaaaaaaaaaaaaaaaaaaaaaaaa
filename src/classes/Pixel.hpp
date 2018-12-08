@@ -24,7 +24,7 @@ public:
           const size_t CellColNew, const double lifesNew, Brain brainNew, double medicineNew);
     Pixel(const Pixel&);
      ~Pixel() = default;
-    std::vector<Hexagon*> LookArond(Map&) const;
+    std::vector<Hexagon*> LookAround(Map&) const;
     void Update(Map&);
     void EatingFood(Hexagon*, Map&);
     void Move(Map&, Hexagon*);
