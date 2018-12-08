@@ -55,7 +55,7 @@ Pixel::Pixel(const Pixel& hex)
     medicine = hex.medicine;
 }
 
-std::vector<Hexagon*> Pixel::LookArond(Map& map) const
+std::vector<Hexagon*> Pixel::LookAround(Map& map) const
 {
     std::vector<Hexagon*> dir;
     if (cellStr % 2 == 0)
@@ -121,7 +121,7 @@ std::vector<Hexagon*> Pixel::LookArond(Map& map) const
 
 void Pixel::Update(Map& map)
 {
-    std::vector<Hexagon*> vec = LookArond(map);
+    std::vector<Hexagon*> vec = LookAround(map);
     brain.UpdateStateOfLife(lifes);
     Hexagon* moveTo = brain.GetSolution(vec);
     Move(map, moveTo);
