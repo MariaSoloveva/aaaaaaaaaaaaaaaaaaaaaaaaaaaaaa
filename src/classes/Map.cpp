@@ -1,11 +1,9 @@
 #include "Map.hpp"
-#include "Food.hpp"
-#include <boost/thread/recursive_mutex.hpp>
 #include "Pixel.hpp"
 
 using Json = nlohmann::json;
 
-Map::Map()  //  Конструктор создает поле, состоящее из воды
+Map::Map()
 {
     std::srand(std::time(nullptr));
     double deltaX = 9;
@@ -28,6 +26,7 @@ Map::Map()  //  Конструктор создает поле, состояще
         }
         y += deltaY;
     }
+    wall = new Wall();
     CreateFood(200);
     SetPoison(200);
 }
