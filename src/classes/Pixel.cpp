@@ -63,58 +63,58 @@ std::vector<Hexagon*> Pixel::LookArond(Map& map) const
         if (cellStr < map.GetHeightInCells() - 1  && cellCol > 0)
             dir.push_back(map[cellStr + 1][cellCol - 1]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
         if (cellCol > 0)
             dir.push_back(map[cellStr][cellCol - 1]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
 
         if (cellStr > 0 && cellCol > 0)
             dir.push_back(map[cellStr - 1][cellCol - 1]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
 
         if (cellStr > 0)
             dir.push_back(map[cellStr - 1][cellCol]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
 
         if (cellCol < map.GetWidthInCells() - 1)
             dir.push_back(map[cellStr][cellCol + 1]);
         else
-            dir.push_back(nullptr);
-        if (cellStr % 2 == 0 && cellStr < map.GetHeightInCells() - 1)
+            dir.push_back(map.GetWall());
+        if (cellStr < map.GetHeightInCells() - 1)
             dir.push_back(map[cellStr + 1][cellCol]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
     }
     else
     {
         if (cellStr < map.GetHeightInCells() - 1)
             dir.push_back(map[cellStr + 1][cellCol]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
         if (cellCol > 0)
             dir.push_back(map[cellStr][cellCol - 1]);
         else
-            dir.push_back(nullptr);
-        if (cellStr % 2 == 1 && cellStr > 0)
+            dir.push_back(map.GetWall());
+        if (cellStr > 0)
             dir.push_back(map[cellStr - 1][cellCol]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
 
-        if (cellStr % 2 == 1 && cellStr > 0 && cellCol > 0)
+        if (cellStr > 0 && cellCol < map.GetWidthInCells() - 1)
             dir.push_back(map[cellStr - 1][cellCol + 1]);
         else
-            dir.push_back(nullptr);
-        if (cellCol < map.GetHeight() - 1)
+            dir.push_back(map.GetWall());
+        if (cellCol < map.GetWidthInCells() - 1)
             dir.push_back(map[cellStr][cellCol + 1]);
         else
-            dir.push_back(nullptr);
-        if (cellStr % 2 == 1 && cellStr < map.GetHeightInCells() - 1 && cellCol < map.GetWidthInCells() - 1)
+            dir.push_back(map.GetWall());
+        if (cellStr < map.GetHeightInCells() - 1 && cellCol < map.GetWidthInCells() - 1)
             dir.push_back(map[cellStr + 1][cellCol + 1]);
         else
-            dir.push_back(nullptr);
+            dir.push_back(map.GetWall());
     }
     return dir;
 }
@@ -148,18 +148,13 @@ void Pixel::Move(Map& map, Hexagon* hexagon1)
 {
     if (hexagon1 != nullptr)
     {
-        if (hexagon1->GetType() == Hexagon::Type::PIXEL)
+        if (hexagon1->GetType() == Hexagon::Type::PIXEL || hexagon1->GetType() == Hexagon::Type::WALL)
             return;
         else if (hexagon1->GetType() == Hexagon::Type::FOOD || hexagon1->GetType() == Hexagon::Type::POISON)
         {
             EatingFood(hexagon1, map);
             return;
         }
-        /*else if (lifes > 90)
-        {
-            Reproduction(map);
-            return;
-        }*/
         map.Swap(this, hexagon1);
     }
 }
