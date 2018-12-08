@@ -74,4 +74,16 @@ public:
     }
 };
 
+class Wall
+        : public Hexagon
+{
+public:
+    Wall()
+            :    Hexagon(Type::WALL, 0, 0, 0, 0)
+    {
+        medicine = 0;
+        lifes = 0;
+    }
+};
+
 #endif
