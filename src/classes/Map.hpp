@@ -2,13 +2,16 @@
 #define EVOLUTION_MAP_H
 
 #include <iostream>
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
 #include <thread>
+#include <vector>
+
 #include <boost/filesystem.hpp>
 #include <SFML/Graphics.hpp>
+
 #include "Hexagon.hpp"
+#include "Food.hpp"
 
 class Pixel;
 
@@ -92,6 +95,8 @@ public:
 
     void IncreaseTimesToSleep(int);
     void DecreaseTimesToSleep(int);
+    
+    Wall* GetWall() const;
 
     void SetOrganism(Pixel*);
     void Swap(Hexagon*, Hexagon*);
@@ -107,6 +112,7 @@ private:
     std::vector<Row> map;
     std::vector<Pixel*> organisms;
     std::vector<Pixel*> staticOrganisms;
+    Wall* wall;
     int evolutionNumber = 1;
     int timeToSleep = 100;
 };
