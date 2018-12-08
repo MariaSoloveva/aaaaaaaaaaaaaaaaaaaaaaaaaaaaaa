@@ -148,7 +148,7 @@ const std::vector<double> Brain::CreateVectorInput(const std::vector<Hexagon*>& 
         std::map<Hexagon::Type, double > values = {{Hexagon::Type::FOOD, 0},{Hexagon::Type::POISON, 0}, {Hexagon::Type::PIXEL, 0}};
         if (a != nullptr)
         {
-            if (a->GetType() != Hexagon::Type::WATER)
+            if (a->GetType() != Hexagon::Type::WATER && a->GetType() != Hexagon::Type::WALL)
                 values[a->GetType()] = 1;
         }
         for (auto& b : values)
@@ -157,7 +157,7 @@ const std::vector<double> Brain::CreateVectorInput(const std::vector<Hexagon*>& 
     return input;
 }
 
-double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3) const
+double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3, std::vector<double>& values, int diff = 0) const
 {
     std::vector<double> input = CreateVectorInput(surroundingObjects3);
     input.push_back(stateOfLife);
@@ -184,7 +184,7 @@ double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3) const
         result = 0;
     }
     result = 0;
-    double sumresult = 0;
+    double sumresult  = 0;
     for (size_t i = 0; i < GetOutputLayer().size() ; ++i)
     {
         for (size_t k = 0; k < GetLayer(2).size(); ++k)
@@ -202,22 +202,29 @@ double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3) const
 Hexagon* Brain::GetSolution(const std::vector<Hexagon*>& surroundingObjects6) const
 {
     std::vector<Hexagon*> sObjectsCopy = surroundingObjects6;
-    std::srand(std::time(nullptr));
-    std::vector<double> values;
+    std::srand(std::time(NULL));
+    std::vector<double> values(7, 0);
+    int diff = 0;
+
     for (size_t i = 0; i < surroundingObjects6.size(); ++i)
     {
         std::vector<Hexagon*> vec(sObjectsCopy.begin(), sObjectsCopy.begin() + 3);
         Hexagon* hex = sObjectsCopy.back();
         sObjectsCopy.insert(sObjectsCopy.begin(), hex);
         sObjectsCopy.erase(sObjectsCopy.begin() + surroundingObjects6.size() - 1);
-        values.push_back(Think(vec));
+
+        //  Think(vec, values);
+
+        Think(vec, values, diff);
+        ++diff;
     }
+
     auto it = std::max_element(values.begin(), values.end());
     size_t result = (size_t)(it - values.begin());
     if (result == 7)
         return nullptr;
     sObjectsCopy.clear();
-    for (size_t i = 0; i < values.size(); ++i)
+    for (size_t i = 0; i < values.size() - 1; ++i)
     {
         if (*it == values[i])
         {
