@@ -39,12 +39,11 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-set(SFML_DIR "vendor/sfml/include")
-set(CMAKE_MODULE_PATH "vendor/sfml/cmake/Modules/" ${CMAKE_MODULE_PATH})
-find_package(SFML REQUIRED system window graphics network audio)
-include_directories(${SFML_INCLUDE_DIR})
+file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
 
-target_include_directories(unit_tests PUBLIC project/include)
+target_include_directories(unit_tests PUBLIC
+        project/include
+        ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
 target_link_libraries(unit_tests GTest::main
         Boost::system
         Boost::filesystem)
@@ -53,7 +52,7 @@ target_link_libraries(unit_tests
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-        ${SFML_LIBRARIES})
+         ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
 
 enable_testing()
 add_test(NAME tests COMMAND unit_tests)
