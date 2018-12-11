@@ -40,7 +40,7 @@ add_executable(unit_tests
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
 set(SFML_DIR "/home/mariasolovyova/SFML-2.3.2/share/SFML")
-set(CMAKE_MODULE_PATH "/home/mariasolovyova/SFML-2.3.2/share/SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH "vendor/sfml/cmake/Modules/" ${CMAKE_MODULE_PATH})
 find_package(SFML REQUIRED system window graphics network audio)
 include_directories(${SFML_INCLUDE_DIR})
 
