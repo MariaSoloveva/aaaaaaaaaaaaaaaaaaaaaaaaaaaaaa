@@ -10,7 +10,7 @@
 
 #include "NeuronCreator.hpp"
 #include "TrainAlgorithm.hpp"
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <json.hpp>
 
 using Json = nlohmann::json;
 
