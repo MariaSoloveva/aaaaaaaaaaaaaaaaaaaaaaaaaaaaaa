@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.4)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include("tools/gate/cmake/HunterGate.cmake")
+include("мутвщк/gate/cmake/HunterGate.cmake")
 
 HunterGate(
         URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
