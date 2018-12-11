@@ -7,8 +7,8 @@
 #include <random>
 #include <set>
 #include <atomic>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <../../../vendor/sfml/include/SFML/Graphics/CircleShape.hpp>
+#include <../../../vendor/sfml/include/SFML/Graphics/RenderWindow.hpp>
 #include "Brain.hpp"
 
 class Map;
