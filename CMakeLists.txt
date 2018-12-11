@@ -1,58 +1,64 @@
-cmake_minimum_required(VERSION 3.9.2)
+cmake_minimum_required(VERSION 3.4)
 
-include("vendor/gate/cmake/HunterGate.cmake")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-huntergate(
+include("tools/gate/cmake/HunterGate.cmake")
+
+HunterGate(
         URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
         SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
 )
 
-project(Evolution::Edit)
+project(evolution)
+string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic")
 
-set(EXECUTABLE_NAME "Evolution")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
 
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS 
-"${CMAKE_CXX_FLAGS} -std=c++11 -O1 -fsanitize=address -Wall -Wextra -Wno-unused-command-line-argument -Wshadow -Wnon-virtual-dtor -pedantic"
-)
+hunter_add_package(nlohmann_json)
+find_package(nlohmann_json CONFIG REQUIRED)
 
-file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
-file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
-
-# CLASSES
-file(GLOB_RECURSE CLASSES_SOURCES src/classes/*.cpp)
-add_library(classes ${CLASSES_SOURCES})
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
-string(APPEND CMAKE_CXX_FLAGS " -pedantic -Wall -Wextra")
-string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
-string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
+set(EXECUTABLE_NAME "Evolution")
 
-target_link_libraries(classes ${SFML_LIBS} Boost::filesystem Boost::system)
-target_include_directories(classes PUBLIC src -fsanitize=address)
-target_include_directories(classes PUBLIC vendor/sfml/include)
+hunter_add_package(GTest)
+hunter_add_package(Boost COMPONENTS system filesystem)
+find_package(Boost CONFIG REQUIRED system filesystem)
+find_package(GTest CONFIG REQUIRED)
 
-# GAME
-set(SOURCES src/main.cpp)
-add_executable(game ${SOURCES})
-target_link_libraries(game classes)
-target_include_directories(game PUBLIC src)
-target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
-
-# TESTS
-file(GLOB_RECURSE TEST_SOURCES src/tests/*.cpp)
-add_executable(tests ${TEST_SOURCES})
-
-target_link_libraries(tests ${GTEST_LIBS})
-target_link_libraries(tests classes)
-target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
-target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
+add_executable(unit_tests
+        project/main.cpp
+        project/sourses/Map.cpp
+        project/sourses/Evolution.cpp
+        project/sourses/Keyboard.cpp
+        project/sourses/Hexagon.cpp
+        project/sourses/Pixel.cpp
+        project/sourses/Link.cpp
+        project/sourses/Brain.cpp
+        project/sourses/Neuron.cpp
+        project/sourses/TrainAlgorithm.cpp
+        project/sourses/Button.cpp)
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-add_custom_target(NAME run_tests COMMAND tests)
+set(SFML_DIR "/home/mariasolovyova/SFML-2.3.2/share/SFML")
+set(CMAKE_MODULE_PATH "/home/mariasolovyova/SFML-2.3.2/share/SFML/cmake/Modules" ${CMAKE_MODULE_PATH})
+find_package(SFML REQUIRED system window graphics network audio)
+include_directories(${SFML_INCLUDE_DIR})
+
+target_include_directories(unit_tests PUBLIC project/include)
+target_link_libraries(unit_tests GTest::main
+        Boost::system
+        Boost::filesystem)
+target_link_libraries(unit_tests
+        GTest::main
+        nlohmann_json::nlohmann_json
+        Boost::system
+        Boost::filesystem
+        ${SFML_LIBRARIES})
+
+enable_testing()
+add_test(NAME tests COMMAND unit_tests)
