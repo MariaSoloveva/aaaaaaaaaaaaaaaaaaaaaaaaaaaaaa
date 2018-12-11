@@ -2,7 +2,7 @@ os: linux
 dist: trusty
 sudo: false
 language: cpp
-compiler: gcc
+compiler: -std=c++17
 
 addons:
   apt:
