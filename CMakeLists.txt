@@ -24,11 +24,6 @@ find_package(Boost CONFIG REQUIRED system filesystem)
 
 set(EXECUTABLE_NAME "Evolution")
 
-hunter_add_package(GTest)
-hunter_add_package(Boost COMPONENTS system filesystem)
-find_package(Boost CONFIG REQUIRED system filesystem)
-find_package(GTest CONFIG REQUIRED)
-
 add_executable(unit_tests
         project/main.cpp
         project/sourses/Map.cpp
