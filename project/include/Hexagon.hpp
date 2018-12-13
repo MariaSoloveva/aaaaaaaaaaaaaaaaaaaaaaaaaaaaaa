@@ -3,8 +3,7 @@
 
 #include <random>
 
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "Brain.hpp"
 
