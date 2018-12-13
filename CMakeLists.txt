@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include("vendor/gate/cmake/HunterGate.cmake")
 
 HunterGate(
-        URL "https://github.com/ruslo/hunter/archive/v0.20.31.tar.gz"
+        URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
         SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
 )
 
@@ -22,7 +22,11 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
+
 set(EXECUTABLE_NAME "Evolution")
+
+hunter_add_package(Boost COMPONENTS system filesystem)
+find_package(Boost CONFIG REQUIRED system filesystem)
 
 add_executable(unit_tests
         project/main.cpp
@@ -39,18 +43,18 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml/cmake/Modules")
 find_package(SFML REQUIRED system window graphics network audio)
-if(SFML_FOUND)
-message("i found sfml")
-	include_directories(${SFML_INCLUDE_DIR})
-	add_library(sfml STATIC ${SFML_LIBRARIES})
-	target_include_directories(unit_tests PUBLIC project/include)
-        target_link_libraries(unit_tests GTest::main
+include_directories(${SFML_INCLUDE_DIR})
+
+target_include_directories(unit_tests PUBLIC project/include)
+target_link_libraries(unit_tests
+        GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-	sfml)
-        enable_testing()
-        add_test(NAME tests COMMAND unit_tests)
-endif()
+        ${SFML_LIBRARIES})
+
+enable_testing()
+add_test(NAME tests COMMAND unit_tests)
