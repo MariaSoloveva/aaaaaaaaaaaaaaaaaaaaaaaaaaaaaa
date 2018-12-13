@@ -39,10 +39,19 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-hunter_cmake_args(
+include(hunter_add_version)
+include(hunter_cacheable)
+include(hunter_download)
+include(hunter_pick_scheme)
+ hunter_add_version(
+    PACKAGE_NAME
     SFML
-    CMAKE_ARGS
-        SFML_BUILD_AUDIO=NO
+    VERSION
+    2.4.2
+    URL
+    "https://github.com/SFML/SFML/archive/2.4.2.tar.gz"
+    SHA1
+	275C68B51B8509BA90EDA6D5DEF791B497F1F777
 )
 
 target_include_directories(unit_tests PUBLIC
