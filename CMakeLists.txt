@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include("vendor/gate/cmake/HunterGate.cmake")
 
 HunterGate(
-        URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
+        URL "https://github.com/ruslo/hunter/archive/v0.20.31.tar.gz"
         SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
 )
 
@@ -42,26 +42,16 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-
 target_include_directories(unit_tests PUBLIC
         project/include
         ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
 target_link_libraries(unit_tests GTest::main
+        nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
 	SFML::system
 	SFML::window
 	SFML::graphics
 	SFML::network)
-target_link_libraries(unit_tests
-        GTest::main
-        nlohmann_json::nlohmann_json
-        Boost::system
-        Boost::filesystem
-        SFML::system
-	SFML::window
-	SFML::graphics
-	SFML::network)
-
 enable_testing()
 add_test(NAME tests COMMAND unit_tests)
