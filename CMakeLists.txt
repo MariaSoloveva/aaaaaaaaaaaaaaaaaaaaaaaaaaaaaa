@@ -22,9 +22,6 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
- hunter_add_package(SFML)
- find_package(SFML CONFIG REQUIRED)
-
 set(EXECUTABLE_NAME "Evolution")
 
 add_executable(unit_tests
@@ -42,16 +39,17 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-target_include_directories(unit_tests PUBLIC
-        project/include
-        ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
-target_link_libraries(unit_tests GTest::main
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/vendor/SFML/cmake/Modules/FindSFML.cmake")
+find_package(SFML REQUIRED system window graphics network audio)
+if(SFML_FOUND)
+	include_directories(${SFML_INCLUDE_DIR})
+	add_library(sfml STATIC ${SFML_LIBRARIES})
+	target_include_directories(unit_tests PUBLIC project/include)
+        target_link_libraries(unit_tests GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-	SFML::system
-	SFML::window
-	SFML::graphics
-	SFML::network)
-enable_testing()
-add_test(NAME tests COMMAND unit_tests)
+	sfml)
+        enable_testing()
+        add_test(NAME tests COMMAND unit_tests)
+endif()
