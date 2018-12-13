@@ -1,8 +1,9 @@
 #ifndef EVOLUTION_HPP
 #define EVOLUTION_HPP
 
-#include <SFML/Window.hpp>
 #include <thread>
+
+#include <SFML/Window.hpp>
 
 #include "Keyboard.hpp"
 #include "Map.hpp"

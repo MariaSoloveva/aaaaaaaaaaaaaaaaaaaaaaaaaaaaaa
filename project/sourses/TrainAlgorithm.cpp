@@ -1,5 +1,3 @@
-#include <random>
-
 #include "Brain.hpp"
 #include "TrainAlgorithm.hpp"
 

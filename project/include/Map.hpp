@@ -1,7 +1,7 @@
-#ifndef EVOLUTION_MAP_H
-#define EVOLUTION_MAP_H
+#ifndef MAP_H
+#define MAP_H
 
-#include <iostream>
+#include <iomanip>
 #include <memory>
 #include <string>
 #include <thread>
@@ -9,10 +9,12 @@
 
 #include <boost/filesystem.hpp>
 #include <SFML/Graphics.hpp>
+#include <nlohmann/json.hpp>
 
-#include "Hexagon.hpp"
 #include "Food.hpp"
+#include "Hexagon.hpp"
 
+using Json = nlohmann::json;
 
 class Pixel;
 
@@ -78,6 +80,7 @@ public:
     void SetPoison(int);
     void RecreateMap(const std::vector<Pixel*>&);
     void ClonePixels(Map&, const std::vector<Pixel*>&);
+    std::vector<Pixel*> Selection(const std::vector<Pixel*>&);
 
     unsigned int GetWidth() const;
     unsigned int GetHeight() const;

@@ -2,7 +2,7 @@
 #define TRAINALGORITHM_H_
 
 #include <vector>
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 
 using Json = nlohmann::json;
 

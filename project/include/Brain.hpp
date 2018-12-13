@@ -2,15 +2,15 @@
 #define NEURALNETWORK_HPP_
 
 #include <algorithm>
-#include <ctime>
 #include <fstream>
-#include <map>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "NeuronCreator.hpp"
 #include "TrainAlgorithm.hpp"
-#include <json.hpp>
+
+#include <nlohmann/json.hpp>
 
 using Json = nlohmann::json;
 

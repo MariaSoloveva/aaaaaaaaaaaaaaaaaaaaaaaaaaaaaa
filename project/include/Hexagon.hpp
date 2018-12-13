@@ -1,14 +1,11 @@
 #ifndef HEXAGON_HPP
 #define HEXAGON_HPP
 
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
 #include <random>
-#include <set>
-#include <atomic>
+
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+
 #include "Brain.hpp"
 
 class Map;

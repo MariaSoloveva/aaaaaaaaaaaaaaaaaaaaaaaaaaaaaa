@@ -1,5 +1,5 @@
 #include "Map.hpp"
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 #include "Pixel.hpp"
 #include <iomanip>
 
@@ -114,11 +114,37 @@ void Map::SetPoison(int numberOfPoison)
     }
 }
 
+bool Difference(Pixel* a, Pixel* b)
+{
+    return (a->GetHowMuchFoodAte() - a->GetHowMuchPoisonAte()) >
+    (b->GetHowMuchFoodAte() - b->GetHowMuchPoisonAte());
+}
+
+std::vector<Pixel*> Map::Selection(const std::vector<Pixel*>& org)
+{
+    std::vector<Pixel*> copyOrg = org;
+    for (int i = (int)copyOrg.size() - 1; i >= 0; --i)
+    {
+        if (copyOrg[i]->GetHowMuchFoodAte() < copyOrg[i]->GetHowMuchPoisonAte())
+            copyOrg.erase(copyOrg.begin() + i);
+    }
+    if (copyOrg.size() > 10)
+    {
+        std::sort(copyOrg.begin(), copyOrg.end(), Difference);
+        for (int i = (int)copyOrg.size() - 10; i >= 0; --i)
+        {
+            copyOrg.erase(copyOrg.begin() + i);
+        }
+    }
+    return copyOrg;
+}
+
 void Map::RecreateMap(const std::vector<Pixel*>& vectorOfNewOrganisms)
 {
     Map mapNew;
+    std::vector<Pixel*> smartestOrganisms = Selection(vectorOfNewOrganisms);
     mapNew.evolutionNumber = evolutionNumber;
-    ClonePixels(mapNew, vectorOfNewOrganisms);
+    ClonePixels(mapNew, smartestOrganisms);
     *this = mapNew;
 
 }
@@ -126,7 +152,6 @@ void Map::RecreateMap(const std::vector<Pixel*>& vectorOfNewOrganisms)
 void Map::ClonePixels(Map& mapNew, const std::vector<Pixel*>& vectorOfNewOrganisms)
 {
     std::srand(std::time(nullptr));
-    mapNew.organisms.clear();
     mapNew.organisms = vectorOfNewOrganisms;
     for (size_t innerOfOrganisms = 0; innerOfOrganisms < vectorOfNewOrganisms.size(); innerOfOrganisms++)
     {
@@ -236,7 +261,7 @@ void Map::Update()
     {
         if (organisms[i]->IsAlive())
             organisms[i]->Update(*this);
-        else if (!organisms[i]->IsAlive() && organisms.size() > 10)
+        else if (!organisms[i]->IsAlive())
         {
             map[organisms[i]->GetCellStr()].erase(organisms[i]->GetCellCol());
             if (!organisms[i]->GetisHealfy())
@@ -249,6 +274,7 @@ void Map::Update()
                 map[organisms[i]->GetCellStr()].insert(new Food(organisms[i]->GetX(), organisms[i]->GetY(), organisms[i]->GetCellStr(), organisms[i]->GetCellCol()),
                                                        organisms[i]->GetCellCol());
             }
+            staticOrganisms.push_back(organisms[i]);
             organisms.erase(organisms.begin() + i);
         }
         else
@@ -265,6 +291,7 @@ void Map::Update()
                 map[organisms[i]->GetCellStr()].insert(new Food(organisms[i]->GetX(), organisms[i]->GetY(), organisms[i]->GetCellStr(), organisms[i]->GetCellCol()),
                                                        organisms[i]->GetCellCol());
             }
+            staticOrganisms.push_back(organisms[i]);
             organisms.erase(organisms.begin() + i);
         }
     }
@@ -414,10 +441,10 @@ void Map::Print(sf::RenderWindow* window) const
         }
     }
     sf::Font font;
-    font.loadFromFile("../../resourses/Arial.ttf");
+    font.loadFromFile("/home/mariasolovyova/CLionProjects/untitled4/Arial.ttf");
     sf::Text text("", font, 25);
     text.setColor(sf::Color::Red);
-    text.setString("Number of evolution: " + std::to_string(evolutionNumber));
+    text.setString("Number of evolution : " + std::to_string(evolutionNumber));
     text.setPosition(100, 0);
     window->draw(text);
     std::this_thread::sleep_for(std::chrono::milliseconds(GetTimeToSleep()));

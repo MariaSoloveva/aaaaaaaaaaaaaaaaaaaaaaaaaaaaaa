@@ -1,12 +1,12 @@
 #ifndef NEURON_HPP_
 #define NEURON_HPP_
 
+#include <vector>
+
+#include <nlohmann/json.hpp>
+
 #include "Link.hpp"
 #include "NetworkFunction.hpp"
-#include <fstream>
-#include <iostream>
-#include <vector>
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
 
 using Json = nlohmann::json;
 

@@ -5,17 +5,21 @@ Pixel::Pixel()
     numberOfLifeIterations = 1;
     brain = Brain();
     lifes = 99;
+    howMuchFoodAte = 0;
+    howMuchPoisonAte = 0;
 }
 
-Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, const size_t CellColNew)
+Pixel::Pixel(double xNew, double yNew, size_t CellStrNew, size_t CellColNew)
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew)
 {
     numberOfLifeIterations = 1;
     medicine = 0;
     lifes = 99;
+    howMuchFoodAte = 0;
+    howMuchPoisonAte = 0;
 }
 
-Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, const size_t CellColNew, Brain newBrain)
+Pixel::Pixel(double xNew, double yNew, size_t CellStrNew, size_t CellColNew, const Brain& newBrain)
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew),
              brain(newBrain)
 {
@@ -24,8 +28,8 @@ Pixel::Pixel(const double xNew, const double yNew, const size_t CellStrNew, cons
     lifes = 99;
 }
 
-Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
-             const size_t CellColNew, const double lifesNew, Brain brainNew, double medicineNew)
+Pixel::Pixel(double xNew, double yNew, const size_t CellStrNew,
+             size_t CellColNew, double lifesNew, const Brain& brainNew, double medicineNew)
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew),
              brain(brainNew),
              numberOfLifeIterations(1)
@@ -38,8 +42,8 @@ Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
         isHealfy = false;
 }
 
-Pixel::Pixel(const float xNew, const float yNew, const size_t CellStrNew,
-             const size_t CellColNew, const double lifesNew, Brain brainNew)
+Pixel::Pixel(double xNew, double yNew, size_t CellStrNew,
+             size_t CellColNew, double lifesNew, const Brain& brainNew)
         :    Hexagon(Type::PIXEL, xNew, yNew, CellStrNew, CellColNew)
 {
     numberOfLifeIterations = 1;
@@ -135,7 +139,12 @@ void Pixel::Update(Map& map)
 void Pixel::EatingFood(Hexagon* hexagon1, Map& map)
 {
     if (hexagon1->GetType() == Hexagon::Type::POISON)
+    {
         isHealfy = false;
+        ++howMuchPoisonAte;
+    }
+    else
+        ++howMuchFoodAte;
     lifes += hexagon1->GetLifes();
     medicine = hexagon1->GetMedicine();
     map[hexagon1->GetCellStr()].erase(hexagon1->GetCellCol());
@@ -236,6 +245,15 @@ const Brain& Pixel::GetBrain() const
 void Pixel::SetBrain(const Brain& brainNew)
 {
     brain = brainNew;
+}
+
+int Pixel::GetHowMuchFoodAte() const
+{
+    return howMuchFoodAte;
+}
+int Pixel::GetHowMuchPoisonAte() const
+{
+    return howMuchPoisonAte;
 }
 
 void Pixel::ResetNumberOfLifeIterations()

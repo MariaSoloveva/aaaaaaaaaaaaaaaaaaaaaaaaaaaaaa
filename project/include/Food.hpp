@@ -1,8 +1,9 @@
-#ifndef EVOLUTION_FOOD_HPP
-#define EVOLUTION_FOOD_HPP
+#ifndef FOOD_HPP
+#define FOOD_HPP
 
 #include "Hexagon.hpp"
-#include </home/mariasolovyova/CLionProjects/Evolution/tools/json/single_include/nlohmann/json.hpp>
+
+#include <nlohmann/json.hpp>
 
 using Json = nlohmann::json;
 
