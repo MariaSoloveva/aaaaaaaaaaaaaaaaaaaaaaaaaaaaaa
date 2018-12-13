@@ -22,6 +22,9 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
+ hunter_add_package(SFML)
+ find_package(SFML CONFIG REQUIRED)
+
 set(EXECUTABLE_NAME "Evolution")
 
 add_executable(unit_tests
@@ -39,33 +42,26 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-include(hunter_add_version)
-include(hunter_cacheable)
-include(hunter_download)
-include(hunter_pick_scheme)
- hunter_add_version(
-    PACKAGE_NAME
-    SFML
-    VERSION
-    2.4.2
-    URL
-    "https://github.com/SFML/SFML/archive/2.4.2.tar.gz"
-    SHA1
-	275C68B51B8509BA90EDA6D5DEF791B497F1F777
-)
 
 target_include_directories(unit_tests PUBLIC
         project/include
         ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
 target_link_libraries(unit_tests GTest::main
         Boost::system
-        Boost::filesystem)
+        Boost::filesystem
+	SFML::system
+	SFML::window
+	SFML::graphics
+	SFML::network)
 target_link_libraries(unit_tests
         GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-         SFML)
+        SFML::system
+	SFML::window
+	SFML::graphics
+	SFML::network)
 
 enable_testing()
 add_test(NAME tests COMMAND unit_tests)
