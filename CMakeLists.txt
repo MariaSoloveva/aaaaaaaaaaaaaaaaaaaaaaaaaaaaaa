@@ -39,7 +39,11 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
+hunter_cmake_args(
+    SFML
+    CMAKE_ARGS
+        SFML_BUILD_AUDIO=NO
+)
 
 target_include_directories(unit_tests PUBLIC
         project/include
@@ -52,7 +56,7 @@ target_link_libraries(unit_tests
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-         ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
+         SFML)
 
 enable_testing()
 add_test(NAME tests COMMAND unit_tests)
