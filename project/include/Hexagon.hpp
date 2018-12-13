@@ -1,8 +1,6 @@
 #ifndef HEXAGON_HPP
 #define HEXAGON_HPP
 
-#include <random>
-
 #include <SFML/Graphics.hpp>
 
 #include "Brain.hpp"
