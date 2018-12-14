@@ -49,9 +49,6 @@ add_executable(unit_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml")
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml/cmake/Modules")
-
 target_include_directories(unit_tests PUBLIC project/include)
 target_link_libraries(unit_tests
         GTest::main
