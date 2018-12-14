@@ -18,34 +18,28 @@ before_build:
 
     cd ../../
 
-    git clone https://github.com/MariaSoloveva/rep2.git
-
-    cd rep2
-
-    mkdir rep2
-
+    git clone https://github.com/MariaSoloveva/rep2.git SmallGameEngine
+    cd SmallGameEngine
+    mkdir SmallGameEngine
     mkdir build
-
     cd build
-
-    cmake -DCMAKE_INSTALL_PREFIX=../rep2 -DSMALLGAMEENGINE_STATIC_STD_LIBS=TRUE -DSFML_STATIC_LIBS=TRUE -DCMAKE_MODULE_PATH=C:/projects/rep2/SFML/install/cmake/Modules -DSFML_ROOT=C:/projects/rep2/SFML/install ..
+    cmake -DCMAKE_INSTALL_PREFIX=../SmallGameEngine -DSMALLGAMEENGINE_STATIC_STD_LIBS=TRUE -DSFML_STATIC_LIBS=TRUE -DCMAKE_MODULE_PATH=C:/projects/smallgameengine/SFML/install/cmake/Modules -DSFML_ROOT=C:/projects/smallgameengine/SFML/install ..
 build:
-  project: rep2/build/INSTALL.vcxproj
+  project: SmallGameEngine/build/INSTALL.vcxproj
   parallel: true
   verbosity: minimal
 after_build:
 - cmd: >-
     cd ../../
-
-    7z a rep2-Windows.zip C:/projects/rep2/rep2/rep2/ -r
+    7z a SmallGameEngine-Windows.zip C:/projects/smallgameengine/SmallGameEngine/SmallGameEngine/ -r
 artifacts:
-- path: rep2-Windows.zip
-  name: rep2-Windows
+- path: SmallGameEngine-Windows.zip
+  name: SmallGameEngine-Windows
 deploy:
-  release: rep2
-  description: 'rep2 master branch release'
+  release: SmallGameEngine
+  description: 'SmallGameEngine master branch release'
   provider: GitHub
-  artifact: rep2-windows.zip
+  artifact: SmallGameEngine-windows.zip
   auth_token:
     secure: Pf37BCPu6ikFu98Rs0MDhDXzI995HHk0p0J5gPV8iy+3E20Vbdp1G6c9qVruQ0hn
   on:
