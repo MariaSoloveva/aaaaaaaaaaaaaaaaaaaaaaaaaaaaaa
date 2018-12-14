@@ -203,16 +203,13 @@ Hexagon* Brain::GetSolution(const std::vector<Hexagon*>& surroundingObjects6) co
     std::vector<Hexagon*> sObjectsCopy = surroundingObjects6;
     std::srand(std::time(NULL));
     std::vector<double> values;
-    int diff = 0;
-
     for (size_t i = 0; i < surroundingObjects6.size(); ++i)
     {
         std::vector<Hexagon*> vec(sObjectsCopy.begin(), sObjectsCopy.begin() + 3);
         Hexagon* hex = sObjectsCopy.back();
         sObjectsCopy.insert(sObjectsCopy.begin(), hex);
         sObjectsCopy.erase(sObjectsCopy.begin() + surroundingObjects6.size() - 1);
-        values.push_back(Think(vec, values));
-        ++diff;
+        values.push_back(Think(vec));
     }
 
     auto it = std::max_element(values.begin(), values.end());
