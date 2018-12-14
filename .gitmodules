@@ -1,11 +1,11 @@
 [submodule "json"]
 	path = json
 	url = https://github.com/nlohmann/json
-[submodule "tools/gate"]
-	path = tools/gate
+[submodule "vendor/gate"]
+	path = vendor/gate
 	url = https://github.com/hunter-packages/gate
-[submodule "tools/polly"]
-	path = tools/polly
+[submodule "vendor/polly"]
+	path = vendor/polly
 	url = https://github.com/ruslo/polly
 [submodule "gate"]
 	path = gate
@@ -13,6 +13,6 @@
 [submodule "polly"]
 	path = polly
 	url = https://github.com/ruslo/polly
-[submodule "tools/tools/polly"]
-	path = tools/tools/polly
+[submodule "vendor/vendor/polly"]
+	path = vendor/vendor/polly
 	url = https://github.com/ruslo/polly
