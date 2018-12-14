@@ -23,7 +23,7 @@ target_include_directories(game PUBLIC src)
 target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
 
 # TESTS
-file(GLOB_RECURSE TEST_SOURCES src/tests/*.cpp)
+file(GLOB_RECURSE TEST_SOURCES project/tests/*.cpp)
 add_executable(tests ${TEST_SOURCES})
 
 target_link_libraries(tests ${GTEST_LIBS})
