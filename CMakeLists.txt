@@ -97,7 +97,11 @@ set(
 add_executable(SmallGameEngine ${SOURCES})
 
 # Link SFML
-target_link_libraries(SmallGameEngine ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+target_link_libraries(SmallGameEngine ${SFML_LIBRARIES} ${SFML_DEPENDENCIES}
+        GTest::main
+        nlohmann_json::nlohmann_json
+        Boost::system
+        Boost::filesystem)
 
 # Install executable
 install(TARGETS SmallGameEngine
