@@ -33,7 +33,7 @@ add_library(classes ${CLASSES_SOURCES})
 target_link_libraries(classes ${SFML_LIBS}
         nlohmann_json::nlohmann_json
         Boost::system
-        Boost::filesystem))
+        Boost::filesystem)
 target_include_directories(classes PUBLIC project)
 target_include_directories(classes PUBLIC vendor/sfml/include)
 target_include_directories(classes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/project/includes)
