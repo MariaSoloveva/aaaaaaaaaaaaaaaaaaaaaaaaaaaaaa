@@ -22,9 +22,20 @@ before_install:
 - export CXX=$CXX_EVAL
 - export CC=$CC_EVAL
 - pip install --user cpplint
+  # C++17
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
 
-before_script:
-  - sudo apt-get install -y libsndfile1-dev libxrandr-dev libudev-dev libopenal-dev build-essential
+install: 
+  # C++17
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
+  - eval "CC=/usr/bin/gcc && CXX=/usr/bin/g++"
 
 script:
-  - ./console build
+  - chmod 777 ./cpplint.py
+  - ( for file in $(find ./ -name "*.cpp"); do ./cpplint.py $file || exit; done );
+  - mkdir build && cd build
+  - cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=YES .. && make
+  - ( for file in $(find ../ -name "*.cpp"); do echo $file; clang-check -analyze $file -p ./ || exit; done );
+  - ./executable
