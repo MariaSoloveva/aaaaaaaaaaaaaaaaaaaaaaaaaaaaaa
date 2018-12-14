@@ -40,7 +40,8 @@ if(SFML_STATIC_LIBS)
 endif()
 
 # Find SFML
-find_package(SFML 2 COMPONENTS graphics window system)
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml")
+find_package(SFML COMPONENTS graphics window system)
 
 # Output an error if SFML wasn't found
 if(SFML_FOUND)
