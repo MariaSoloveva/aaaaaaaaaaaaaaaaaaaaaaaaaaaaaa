@@ -24,9 +24,15 @@ find_package(Boost CONFIG REQUIRED system filesystem)
 
 
 set(EXECUTABLE_NAME "Evolution")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-hunter_add_package(Boost COMPONENTS system filesystem)
-find_package(Boost CONFIG REQUIRED system filesystem)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
 
 add_executable(unit_tests
         project/main.cpp
@@ -45,16 +51,15 @@ add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
 set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml/cmake/Modules")
-find_package(SFML REQUIRED system window graphics network audio)
-include_directories(${SFML_INCLUDE_DIR})
 
 target_include_directories(unit_tests PUBLIC project/include)
 target_link_libraries(unit_tests
+        PUBLIC
+        ${CMAKE_SOURCE_DIR}/vendor/sfml/include
         GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
-        Boost::filesystem
-        ${SFML_LIBRARIES})
+        Boost::filesystem)
 
 enable_testing()
 add_test(NAME tests COMMAND unit_tests)
