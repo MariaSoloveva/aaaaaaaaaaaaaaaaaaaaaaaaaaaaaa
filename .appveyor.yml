@@ -1,0 +1,52 @@
+configuration:
+- Release
+before_build:
+- cmd: >-
+    git clone https://github.com/SFML/SFML.git
+
+    cd SFML
+
+    mkdir install
+
+    mkdir build
+
+    cd build
+
+    cmake -DCMAKE_INSTALL_PREFIX=../install -DBUILD_SHARED_LIBS=FALSE -DSFML_USE_STATIC_STD_LIBS=TRUE ..
+
+    msbuild INSTALL.vcxproj
+
+    cd ../../
+
+    git clone https://github.com/MariaSoloveva/rep2.git
+
+    cd rep2
+
+    mkdir rep2
+
+    mkdir build
+
+    cd build
+
+    cmake -DCMAKE_INSTALL_PREFIX=../rep2 -DSMALLGAMEENGINE_STATIC_STD_LIBS=TRUE -DSFML_STATIC_LIBS=TRUE -DCMAKE_MODULE_PATH=C:/projects/rep2/SFML/install/cmake/Modules -DSFML_ROOT=C:/projects/rep2/SFML/install ..
+build:
+  project: rep2/build/INSTALL.vcxproj
+  parallel: true
+  verbosity: minimal
+after_build:
+- cmd: >-
+    cd ../../
+
+    7z a rep2-Windows.zip C:/projects/rep2/rep2/rep2/ -r
+artifacts:
+- path: rep2-Windows.zip
+  name: rep2-Windows
+deploy:
+  release: rep2
+  description: 'rep2 master branch release'
+  provider: GitHub
+  artifact: rep2-windows.zip
+  auth_token:
+    secure: Pf37BCPu6ikFu98Rs0MDhDXzI995HHk0p0J5gPV8iy+3E20Vbdp1G6c9qVruQ0hn
+  on:
+    tags: true
