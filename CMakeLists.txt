@@ -14,6 +14,7 @@ add_library(classes ${CLASSES_SOURCES})
 target_link_libraries(classes ${SFML_LIBS})
 target_include_directories(classes PUBLIC project)
 target_include_directories(classes PUBLIC vendor/sfml/include)
+target_include_directories(classes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/project/includes)
 
 # GAME
 set(SOURCES project/main.cpp)
