@@ -38,7 +38,9 @@ target_include_directories(classes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/project/in
 # GAME
 set(SOURCES project/main.cpp)
 add_executable(game ${SOURCES})
-target_link_libraries(game classes
+
+target_include_directories(includes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/progect/includes)
+target_link_libraries(game includes classes
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem)
