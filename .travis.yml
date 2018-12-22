@@ -1,7 +1,15 @@
-dist: trusty
+os: linux
 sudo: false
 language: cpp
-compiler: gcc
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - libstdc++-7-dev
+    - g++-7
+    update: true
 
 before_script:
   - sudo apt-get install -y libsndfile1-dev libxrandr-dev libudev-dev libopenal-dev build-essential
