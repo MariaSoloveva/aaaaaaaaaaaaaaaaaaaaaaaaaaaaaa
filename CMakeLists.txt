@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9.2)
 
-include("vendor/gate/cmake/HunterGate.cmake")
+include("tools/gate/cmake/HunterGate.cmake")
 
 HunterGate(
         URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
@@ -19,8 +19,10 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
+
 file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
-file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
 
 # CLASSES
 file(GLOB_RECURSE CLASSES_SOURCES project/sourses/*.cpp)
@@ -30,7 +32,7 @@ target_link_libraries(classes ${SFML_LIBS}
         Boost::system
         Boost::filesystem)
 target_include_directories(classes PUBLIC project)
-target_include_directories(classes PUBLIC vendor/sfml/include)
+target_include_directories(classes PUBLIC tools/sfml/include)
 target_include_directories(classes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/project/includes)
 
 # GAME
@@ -41,18 +43,18 @@ target_link_libraries(game classes
         Boost::system
         Boost::filesystem)
 target_include_directories(game PUBLIC src)
-target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
+target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/tools/sfml/include)
 
 # TESTS
 file(GLOB_RECURSE TEST_SOURCES project/tests/*.cpp)
 add_executable(tests ${TEST_SOURCES})
 
-target_link_libraries(tests ${GTEST_LIBS})
+target_link_libraries(tests GTest::main)
 target_link_libraries(tests classes
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem)
-target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
+target_include_directories(tests PUBLIC vendor/sfml/include Gtest)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/project)
 
 add_custom_target(NAME run_tests COMMAND tests)
