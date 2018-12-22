@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9.2)
 
-include("toolsor/gate/cmake/HunterGate.cmake")
+include("tools/gate/cmake/HunterGate.cmake")
 
 HunterGate(
         URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
