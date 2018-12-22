@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.9.2)
+cmake_minimum_required(VERSION 3.4)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include("tools/gate/cmake/HunterGate.cmake")
 
@@ -19,48 +22,39 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
-project(Evolution)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(EXECUTABLE_NAME "Evolution")
 
-file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
-file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
+add_executable(evolution_tests
+        project/main.cpp
+        project/sourses/Map.cpp
+        project/sourses/Evolution.cpp
+        project/sourses/Keyboard.cpp
+        project/sourses/Hexagon.cpp
+        project/sourses/Pixel.cpp
+        project/sourses/Link.cpp
+        project/sourses/Brain.cpp
+        project/sourses/Neuron.cpp
+        project/sourses/TrainAlgorithm.cpp
+        project/sourses/Button.cpp
+        project/tests/Keyboard_test.cpp
+        project/tests/Brain_tests.cpp)
 
-# CLASSES
-file(GLOB_RECURSE CLASSES_SOURCES project/sourses/*.cpp)
-add_library(classes ${CLASSES_SOURCES})
-target_link_libraries(classes ${SFML_LIBS}
+add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
+
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/tools/sfml")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/tools/sfml/cmake/Modules")
+find_package(SFML REQUIRED system window graphics network audio)
+include_directories(${SFML_INCLUDE_DIR})
+message(${SFML_INCLUDE_DIR})
+
+target_include_directories(evolution_tests PUBLIC project/include)
+target_link_libraries(evolution_tests
+        GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
-        Boost::filesystem)
-target_include_directories(classes PUBLIC project)
-target_include_directories(classes PUBLIC tools/sfml/include)
+        Boost::filesystem
+        ${SFML_LIBRARIES})
 
-# GAME
-set(SOURCES project/main.cpp)
-add_executable(game ${SOURCES})
-target_link_libraries(game classes
-        nlohmann_json::nlohmann_json
-        Boost::system
-        Boost::filesystem)
-target_include_directories(game PUBLIC project)
-target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/tools/sfml/include)
-
-# TESTS
-file(GLOB_RECURSE TEST_SOURCES project/tests/*.cpp)
-add_executable(tests ${TEST_SOURCES})
-
-target_link_libraries(tests ${GTEST_LIBS})
-target_link_libraries(tests classes
-        nlohmann_json::nlohmann_json
-        Boost::system
-        Boost::filesystem)
-target_include_directories(tests PUBLIC tools/sfml/include tools/gtest/include)
-target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/project)
-
-add_custom_target(NAME run_tests COMMAND tests)
+enable_testing()
+add_test(NAME tests COMMAND evolution_tests)
