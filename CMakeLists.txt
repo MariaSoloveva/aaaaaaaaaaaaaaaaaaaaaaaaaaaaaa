@@ -35,7 +35,10 @@ file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
 # CLASSES
 file(GLOB_RECURSE CLASSES_SOURCES src/classes/*.cpp)
 add_library(classes ${CLASSES_SOURCES})
-target_link_libraries(classes ${SFML_LIBS})
+target_link_libraries(classes ${SFML_LIBS}
+        nlohmann_json::nlohmann_json
+        Boost::system
+        Boost::filesystem)
 target_include_directories(classes PUBLIC src)
 target_include_directories(classes PUBLIC vendor/sfml/include)
 
