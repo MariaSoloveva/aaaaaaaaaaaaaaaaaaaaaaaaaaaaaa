@@ -10,6 +10,9 @@ HunterGate(
 project(evolution)
 string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic")
 
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
+
 hunter_add_package(nlohmann_json)
 find_package(nlohmann_json CONFIG REQUIRED)
 
@@ -21,8 +24,7 @@ project(Evolution)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/tools/sfml")
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/tools/sfml/cmake/Modules")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/FindSFML.cmake")
 find_package(SFML REQUIRED system window graphics network audio)
 include_directories(${SFML_INCLUDE_DIR})
 
@@ -43,8 +45,8 @@ target_link_libraries(game classes
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem)
-target_include_directories(game PUBLIC src)
-target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/tools/sfml/include)
+target_include_directories(game PUBLIC project)
+target_include_directories(game PUBLIC ${SFML_INCLUDE_DIR})
 
 # TESTS
 file(GLOB_RECURSE TEST_SOURCES project/tests/*.cpp)
