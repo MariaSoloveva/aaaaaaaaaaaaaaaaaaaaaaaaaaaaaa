@@ -43,7 +43,10 @@ target_include_directories(classes PUBLIC vendor/sfml/include)
 set(SOURCES src/main.cpp)
 find_package(Threads REQUIRED)
 add_executable(game ${SOURCES})
-target_link_libraries(game classes ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(game classes ${CMAKE_THREAD_LIBS_INIT}
+        nlohmann_json::nlohmann_json
+        Boost::system
+        Boost::filesystem)
 target_include_directories(game PUBLIC src)
 target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/vendor/sfml/include)
 
@@ -52,7 +55,10 @@ file(GLOB_RECURSE TEST_SOURCES src/tests/*.cpp)
 add_executable(tests ${TEST_SOURCES})
 
 target_link_libraries(tests ${GTEST_LIBS})
-target_link_libraries(tests classes)
+target_link_libraries(tests classes 
+        nlohmann_json::nlohmann_json
+        Boost::system
+        Boost::filesystem)
 target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/src)
 
