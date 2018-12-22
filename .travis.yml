@@ -11,6 +11,13 @@ addons:
     - g++-7
     update: true
 
+env: CC_EVAL=gcc-7 CXX_EVAL=g++-7
+
+before_install:
+- export CXX=$CXX_EVAL
+- export CC=$CC_EVAL
+- pip install --user cpplint
+
 before_script:
   - sudo apt-get install -y libsndfile1-dev libxrandr-dev libudev-dev libopenal-dev build-essential
 
