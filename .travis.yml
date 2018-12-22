@@ -18,8 +18,8 @@ before_install:
 - export CC=$CC_EVAL
 - pip install --user cpplint
 
-before_script:
-  - sudo apt-get install -y libsndfile1-dev libxrandr-dev libudev-dev libopenal-dev build-essential
-
 script:
-  - ./console build
+- files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
+
+notifications:
+  email: false
