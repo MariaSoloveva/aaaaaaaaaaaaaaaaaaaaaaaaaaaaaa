@@ -1,4 +1,11 @@
 cmake_minimum_required(VERSION 3.5.1)
+include("tools/gate/cmake/HunterGate.cmake")
+
+HunterGate(
+        URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
+        SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
+)
+
 project(MarioEdit)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
@@ -8,6 +15,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
+
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
+
+hunter_add_package(nlohmann_json)
+find_package(nlohmann_json CONFIG REQUIRED)
+
+hunter_add_package(Boost COMPONENTS system filesystem)
+find_package(Boost CONFIG REQUIRED system filesystem)
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
