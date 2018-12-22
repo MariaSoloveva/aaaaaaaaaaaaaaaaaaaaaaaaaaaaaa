@@ -3,25 +3,46 @@
 
 #include <cmath>
 
-/// @brief Класс сигмоидной функции
-class Sigmoid
+/// @brief Родительский класс функции
+class NetworkFunction
 {
 public:
     /// @brief Конструктор по умочанию
-    Sigmoid() = default;
+    NetworkFunction() = default;
     /// @brief Деструктор по умолчанию
-    ~Sigmoid() = default;
+    virtual ~NetworkFunction() = default;
     /// @brief Функция получения значения функции
     /// @param x значение аргумента
     /// @result значение функции
-    double Process(const double x)
+    virtual double Process(const double x)
+    {
+        return 0;
+    }
+    /// @brief Функция получения значения производной функции
+    /// @param x значение аргумента
+    /// @result значение производной функции
+    virtual double Derivative(double x)
+    {
+        return 0;
+    }
+};
+
+/// @brief Класс сигмоидной функции
+class Sigmoid
+        : public NetworkFunction
+{
+public:
+    /// @brief Функция получения значения функции
+    /// @param x значение аргумента
+    /// @result значение функции
+    double Process(const double x) override
     {
         return (1 / (1 + exp(-x)));
     };
     /// @brief Функция получения значения производной функции
     /// @param x значение аргумента
     /// @result значение производной функции
-    double Derivative(const double x)
+    double Derivative(const double x) override
     {
         return Process(x) * (1 - Process(x));
     };
