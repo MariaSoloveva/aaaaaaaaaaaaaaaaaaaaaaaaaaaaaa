@@ -46,22 +46,6 @@ void Neuron::Input(double deltaWeight)
     sumOfWeights += deltaWeight;
 }
 
-double Neuron::Fire() const
-{
-    for (size_t inner = 0; inner < GetNumOfLinks(); inner++)
-    {
-        Link* pCurrentLink = linksToNeurons[inner];
-        Neuron* pCurrentNeuronLinkedTo = pCurrentLink->GetNeuronLinkedTo();
-
-        const double dWeight = pCurrentLink->GetWeight();
-        double	dCharge = sumOfWeights;
-        double 	dXi =  (function->Process(dCharge));
-        double 	dOutput = dXi*dWeight;
-        pCurrentNeuronLinkedTo->Input(dOutput);
-    }
-    return sumOfWeights;
-}
-
 std::vector<Link*> Neuron::GetLinksToNeurons() const
 {
     return linksToNeurons;
@@ -92,20 +76,11 @@ void Neuron::ResetSumOfWeights()
     sumOfWeights = 0;
 }
 
-double Neuron::Process() const
-{
-    return function->Process(sumOfWeights);
-}
-
 double Neuron::Process(double x) const
 {
     return function->Process(x);
 }
 
-double Neuron::Derivative() const
-{
-    return function->Derivative(sumOfWeights);
-}
 
 void Neuron::SetLinkToNeuron(Link* newLLink)
 {

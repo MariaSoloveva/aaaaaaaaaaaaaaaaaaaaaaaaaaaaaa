@@ -8,20 +8,6 @@ Evolution::Evolution()
     buttonDecrease= Button(0, 5, 0);
     buttonIncrease = Button(40, 70, 180);
 }
-
-Evolution::Evolution(const Evolution& ev)
-        :        map(ev.map),
-                 keyboard(ev.keyboard)
-{
-    window.create(sf::VideoMode(ev.map.GetWidth(), ev.map.GetHeight()), "Evolution");
-}
-
-Evolution::Evolution(Evolution&& ev)
-        :    map(std::move(ev.map)),
-             keyboard(std::move(ev.keyboard))
-{
-    window.create(sf::VideoMode(ev.map.GetWidth(), ev.map.GetHeight()), "Evolution");
-}
 void Evolution::Statistics()
 {
     double statisticsOfLifeIt = 0;
@@ -49,7 +35,7 @@ void Evolution::Menu()
     {
         window.clear();
         sf::Font font;
-        font.loadFromFile("/home/mariasolovyova/CLionProjects/EvVv/Arial.ttf");
+        font.loadFromFile("resourses/Arial.ttf");
 
         sf::Text textEvolution("", font, 70);
         textEvolution.setColor(sf::Color::Green);

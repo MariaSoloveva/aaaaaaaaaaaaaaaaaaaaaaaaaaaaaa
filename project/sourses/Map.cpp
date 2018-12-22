@@ -427,7 +427,7 @@ void Map::SaveToFile() const
 void Map::UploadFromFile(int numberOfEvolution, size_t newWidth, size_t newHeight)
 {
     boost::filesystem::path path = boost::filesystem::current_path().parent_path();
-    path += "/recordsNew";
+    path += "/records";
     if(!boost::filesystem::exists(path))
         throw std::runtime_error("UploadFromFile : can't file directory to load from");
     *this = Map(path.string(), numberOfEvolution, newWidth, newHeight);
@@ -444,7 +444,7 @@ void Map::Print(sf::RenderWindow* window) const
         }
     }
     sf::Font font;
-    font.loadFromFile("/home/mariasolovyova/CLionProjects/EvVv/Arial.ttf");
+    font.loadFromFile("resourses/Arial.ttf");
     sf::Text text("", font, 25);
     text.setColor(sf::Color::Red);
     text.setString("Number of evolution : " + std::to_string(evolutionNumber));

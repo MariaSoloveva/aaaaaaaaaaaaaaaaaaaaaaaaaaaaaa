@@ -138,8 +138,6 @@ void Brain::Train()
     algorithm->Train(this);
 }
 
-//  Функция принимает на вход вектор указателей на объекты, окружающиx пикселя
-//  Если рядом стоит другой пиксель, то мы не можем перейти на клетку, на которой он стоит
 const std::vector<double> Brain::CreateVectorInput(const std::vector<Hexagon*>& SurroundingObjects) const
 {
     std::vector<double > input;
@@ -161,6 +159,7 @@ double Brain::Think(const std::vector<Hexagon*>& surroundingObjects3) const
 {
     std::vector<double> input = CreateVectorInput(surroundingObjects3);
     input.push_back(stateOfLife);
+    //  input.push_back(sigmoid);
     std::srand(std::time(nullptr));
     double result = 0;
     for (size_t i = 0; i < GetLayer(1).at(0)->GetNumOfInputLinks(); ++i)
@@ -203,13 +202,19 @@ Hexagon* Brain::GetSolution(const std::vector<Hexagon*>& surroundingObjects6) co
     std::vector<Hexagon*> sObjectsCopy = surroundingObjects6;
     std::srand(std::time(NULL));
     std::vector<double> values;
+    int diff = 0;
+
     for (size_t i = 0; i < surroundingObjects6.size(); ++i)
     {
         std::vector<Hexagon*> vec(sObjectsCopy.begin(), sObjectsCopy.begin() + 3);
         Hexagon* hex = sObjectsCopy.back();
         sObjectsCopy.insert(sObjectsCopy.begin(), hex);
         sObjectsCopy.erase(sObjectsCopy.begin() + surroundingObjects6.size() - 1);
+
+        //  Think(vec, values);
+
         values.push_back(Think(vec));
+        ++diff;
     }
 
     auto it = std::max_element(values.begin(), values.end());
