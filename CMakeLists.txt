@@ -7,9 +7,6 @@ HunterGate(
         SHA1 "3d94b8522541c4c8eaac606f4c47d09322a8019c"
 )
 
-project(evolution)
-string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic")
-
 hunter_add_package(nlohmann_json)
 find_package(nlohmann_json CONFIG REQUIRED)
 
@@ -17,7 +14,7 @@ hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
 project(Evolution)
-
+string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
