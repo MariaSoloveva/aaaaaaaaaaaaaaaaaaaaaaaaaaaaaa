@@ -41,12 +41,10 @@ add_executable(evolution_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package(SFML REQUIRED system window graphics network audio)
 include_directories(${SFML_INCLUDE_DIR})
 message(${SFML_INCLUDE_DIR})
 
-target_include_directories(evolution_tests PUBLIC project/include)
 target_link_libraries(evolution_tests
         GTest::main
         nlohmann_json::nlohmann_json
