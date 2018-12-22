@@ -18,11 +18,15 @@ before_install:
 - export CC=$CC_EVAL
 - pip install --user cpplint
 
+before_script:
+  - sudo apt-get install -y libsndfile1-dev libxrandr-dev libudev-dev libopenal-dev build-essential
+
 script:
 - files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
 # tests
 - export CTEST_OUTPUT_ON_FAILURE=true
 - ./tools/polly/bin/polly --reconfig --test --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
+- ./console
 
 notifications:
   email: false
