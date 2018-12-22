@@ -22,7 +22,7 @@ script:
 - files=`find . -name "*.cpp" -or -name "*.hpp" -or -name ".h" | grep -v "./tools/*"`
 # tests
 - export CTEST_OUTPUT_ON_FAILURE=true
-- ./tools/polly/bin/polly --reconfig --test --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
+- ./vendor/polly/bin/polly --reconfig --test --config Release --fwd CMAKE_EXE_LINKER="-fuse-ld=gold"
 
 notifications:
   email: false
