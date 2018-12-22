@@ -1,12 +1,6 @@
 [submodule "json"]
 	path = json
 	url = https://github.com/nlohmann/json
-[submodule "tools/gate"]
-	path = tools/gate
-	url = https://github.com/hunter-packages/gate.git
-[submodule "tools/polly"]
-	path = tools/polly
-	url = https://github.com/ruslo/polly.git
 [submodule "gate"]
 	path = gate
 	url = https://github.com/hunter-packages/gate
@@ -16,6 +10,3 @@
 [submodule "tools/tools/polly"]
 	path = tools/tools/polly
 	url = https://github.com/ruslo/polly
-[submodule "tools/Sfml"]
-	path = tools/Sfml
-	url = https://github.com/SFML/SFML.git
