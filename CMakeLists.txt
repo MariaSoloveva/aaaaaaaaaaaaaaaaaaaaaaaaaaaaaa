@@ -29,12 +29,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
+file(GLOB GTEST_LIBS ${CMAKE_SOURCE_DIR}/build/gtest/libgtest*)
 
 # CLASSES
 file(GLOB_RECURSE CLASSES_SOURCES project/sourses/*.cpp)
 add_library(classes ${CLASSES_SOURCES})
-target_link_libraries(classes
-        ${SFML_LIBS}
+target_link_libraries(classes ${SFML_LIBS}
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem)
@@ -48,7 +48,7 @@ target_link_libraries(game classes
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem)
-target_include_directories(game PUBLIC src)
+target_include_directories(game PUBLIC project)
 target_include_directories(game PUBLIC ${CMAKE_SOURCE_DIR}/tools/sfml/include)
 
 # TESTS
@@ -57,8 +57,10 @@ add_executable(tests ${TEST_SOURCES})
 
 target_link_libraries(tests ${GTEST_LIBS})
 target_link_libraries(tests classes
-        GTest::main)
-target_include_directories(tests PUBLIC tools/sfml/include)
+        nlohmann_json::nlohmann_json
+        Boost::system
+        Boost::filesystem)
+target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/project)
 
 add_custom_target(NAME run_tests COMMAND tests)
