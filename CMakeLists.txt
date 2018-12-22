@@ -60,7 +60,7 @@ target_link_libraries(tests classes
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem)
-target_include_directories(tests PUBLIC vendor/sfml/include vendor/gtest/include)
+target_include_directories(tests PUBLIC tools/sfml/include tools/gtest/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/project)
 
 add_custom_target(NAME run_tests COMMAND tests)
