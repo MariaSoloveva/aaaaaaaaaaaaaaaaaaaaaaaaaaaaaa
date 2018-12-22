@@ -3,7 +3,7 @@
 	url = https://github.com/nlohmann/json
 [submodule "tools/gate"]
 	path = tools/gate
-	url = https://github.com/hunter-packages/gate
+	url = https://github.com/hunter-packages/gate.git
 [submodule "tools/polly"]
 	path = tools/polly
 	url = https://github.com/ruslo/polly
@@ -16,6 +16,3 @@
 [submodule "tools/tools/polly"]
 	path = tools/tools/polly
 	url = https://github.com/ruslo/polly
-[submodule "rack"]
-	path = rack
-	url = git://github.com/chneukirchen/rack.git
