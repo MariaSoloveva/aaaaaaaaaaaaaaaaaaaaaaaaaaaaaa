@@ -16,3 +16,6 @@
 [submodule "tools/tools/polly"]
 	path = tools/tools/polly
 	url = https://github.com/ruslo/polly
+[submodule "tools/Sfml"]
+	path = tools/Sfml
+	url = https://github.com/SFML/SFML.git
