@@ -37,7 +37,6 @@ add_executable(evolution_tests
         project/sourses/Neuron.cpp
         project/sourses/TrainAlgorithm.cpp
         project/sourses/Button.cpp
-        project/tests/Keyboard_test.cpp
         project/tests/Brain_tests.cpp)
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
