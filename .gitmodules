@@ -16,3 +16,6 @@
 [submodule "tools/tools/polly"]
 	path = tools/tools/polly
 	url = https://github.com/ruslo/polly
+[submodule "rack"]
+	path = rack
+	url = git://github.com/chneukirchen/rack.git
