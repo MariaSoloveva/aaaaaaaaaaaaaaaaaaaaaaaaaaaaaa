@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <gtest/gtest.h>
-#include "Evolution.hpp"
+#include "sourses/Evolution.hpp"
 
 int main(int argc, char *argv[])
 {
