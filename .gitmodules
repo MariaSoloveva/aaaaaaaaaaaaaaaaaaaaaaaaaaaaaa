@@ -6,7 +6,7 @@
 	url = https://github.com/hunter-packages/gate.git
 [submodule "tools/polly"]
 	path = tools/polly
-	url = https://github.com/ruslo/polly
+	url = https://github.com/ruslo/polly.git
 [submodule "gate"]
 	path = gate
 	url = https://github.com/hunter-packages/gate
