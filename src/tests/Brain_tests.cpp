@@ -1,8 +1,8 @@
 #include <boost/filesystem.hpp>
 #include <gtest/gtest.h>
 
-#include "../sourses/Brain.hpp"
-#include "../sourses/Pixel.hpp"
+#include "../classes/Brain.hpp"
+#include "../classes/Pixel.hpp"
 
 TEST(BrainConstructAnaSolutionTest, ConstructAnaSolutionTest)
 {
