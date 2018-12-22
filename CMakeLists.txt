@@ -10,6 +10,9 @@ HunterGate(
 project(evolution)
 string(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-command-line-argument -Wnon-virtual-dtor -pedantic")
 
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
+
 hunter_add_package(nlohmann_json)
 find_package(nlohmann_json CONFIG REQUIRED)
 
