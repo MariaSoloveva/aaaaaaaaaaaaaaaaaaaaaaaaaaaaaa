@@ -14,14 +14,14 @@ public:
     /// @brief Функция получения значения функции
     /// @param x значение аргумента
     /// @result значение функции
-    double Process(const double x) override
+    double Process(const double x)
     {
         return (1 / (1 + exp(-x)));
     };
     /// @brief Функция получения значения производной функции
     /// @param x значение аргумента
     /// @result значение производной функции
-    double Derivative(const double x) override
+    double Derivative(const double x)
     {
         return Process(x) * (1 - Process(x));
     };
