@@ -20,20 +20,20 @@ hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
 project(Evolution)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 file(GLOB SFML_LIBS ${CMAKE_SOURCE_DIR}/build/sfml/lib/*)
 
 # CLASSES
 file(GLOB_RECURSE CLASSES_SOURCES project/sourses/*.cpp)
 add_library(classes ${CLASSES_SOURCES})
-target_link_libraries(classes ${SFML_LIBS}
-        GTest::main
-        nlohmann_json::nlohmann_json
-        Boost::system
-        Boost::filesystem)
+target_link_libraries(classes ${SFML_LIBS})
 target_include_directories(classes PUBLIC project)
 target_include_directories(classes PUBLIC tools/sfml/include)
 
@@ -53,10 +53,7 @@ add_executable(tests ${TEST_SOURCES})
 
 target_link_libraries(tests ${GTEST_LIBS})
 target_link_libraries(tests classes
-        GTest::main
-        nlohmann_json::nlohmann_json
-        Boost::system
-        Boost::filesystem)
+        GTest::main)
 target_include_directories(tests PUBLIC tools/sfml/include)
 target_include_directories(tests PUBLIC ${CMAKE_SOURCE_DIR}/project)
 
