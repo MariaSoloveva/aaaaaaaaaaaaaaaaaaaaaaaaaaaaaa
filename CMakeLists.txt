@@ -22,7 +22,6 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
-
 set(EXECUTABLE_NAME "Evolution")
 
 add_executable(evolution_tests
@@ -41,6 +40,8 @@ add_executable(evolution_tests
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/tools/sfml")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/tools/sfml/cmake/Modules")
 find_package(SFML REQUIRED system window graphics network audio)
 include_directories(${SFML_INCLUDE_DIR})
 message(${SFML_INCLUDE_DIR})
