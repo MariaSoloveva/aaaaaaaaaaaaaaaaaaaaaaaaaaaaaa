@@ -26,8 +26,7 @@ before_script:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo cp -r SFML-2.4.0/include/* /usr/local/include/.; fi
 
 
-script:
-  - sudo apt-get install libsfml-dev 
+script: 
   - mkdir build
   - cd build
   - cmake .. && make
