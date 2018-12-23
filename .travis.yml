@@ -27,6 +27,7 @@ before_script:
 
 
 script:
+  - sudo apt-get install libsfml-dev 
   - mkdir build
   - cd build
   - cmake .. && make
