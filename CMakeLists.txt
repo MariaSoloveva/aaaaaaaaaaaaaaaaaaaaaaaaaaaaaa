@@ -52,7 +52,7 @@ target_link_libraries(evolution_tests
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-        ${SFML_LIBRARIES})
+        /usr/lib/x86_64-linux-gnu/libsfml-system.so/usr/lib/x86_64-linux-gnu/libsfml-window.so/usr/lib/x86_64-linux-gnu/libsfml-graphics.so/usr/lib/x86_64-linux-gnu/libsfml-network.so/usr/lib/x86_64-linux-gnu/libsfml-audio.so)
 
 enable_testing()
 add_test(NAME tests COMMAND evolution_tests)
