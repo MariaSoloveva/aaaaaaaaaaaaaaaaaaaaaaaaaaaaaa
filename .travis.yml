@@ -29,7 +29,7 @@ before_script:
 script: 
   - mkdir build
   - cd build
-  - cmake .. && make
+  - g++ -c project/main.cpp
 
 notifications:
   email: false
