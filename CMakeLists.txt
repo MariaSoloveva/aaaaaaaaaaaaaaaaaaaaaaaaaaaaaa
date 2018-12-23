@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.4)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include("tools/gate/cmake/HunterGate.cmake")
+include("vendor/gate/cmake/HunterGate.cmake")
 
 HunterGate(
         URL "https://github.com/ruslo/hunter/archive/v0.23.31.tar.gz"
@@ -26,28 +26,27 @@ find_package(Boost CONFIG REQUIRED system filesystem)
 set(EXECUTABLE_NAME "Evolution")
 
 add_executable(evolution_tests
-        project/main.cpp
-        project/sourses/Map.cpp
-        project/sourses/Evolution.cpp
-        project/sourses/Keyboard.cpp
-        project/sourses/Hexagon.cpp
-        project/sourses/Pixel.cpp
-        project/sourses/Link.cpp
-        project/sourses/Brain.cpp
-        project/sourses/Neuron.cpp
-        project/sourses/TrainAlgorithm.cpp
-        project/sourses/Button.cpp
-        project/tests/Keyboard_test.cpp
-        project/tests/Brain_tests.cpp)
+        src/main.cpp
+        src/classes/Map.cpp
+        src/classes/Evolution.cpp
+        src/classes/Keyboard.cpp
+        src/classes/Hexagon.cpp
+        src/classes/Pixel.cpp
+        src/classes/Link.cpp
+        src/classes/Brain.cpp
+        src/classes/Neuron.cpp
+        src/classes/TrainAlgorithm.cpp
+        src/classes/Button.cpp
+        src/classes/Keyboard_test.cpp
+        src/classes/Brain_tests.cpp)
 
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
-set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/tools/sfml")
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/tools/sfml/cmake/Modules")
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/vendor/sfml/cmake/Modules")
 find_package(SFML REQUIRED system window graphics network audio)
 include_directories(/usr/local/include)
 
-target_include_directories(evolution_tests PUBLIC project/include)
 target_link_libraries(evolution_tests
         GTest::main
         nlohmann_json::nlohmann_json
