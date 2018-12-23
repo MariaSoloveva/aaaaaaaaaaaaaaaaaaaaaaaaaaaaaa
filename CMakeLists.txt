@@ -43,7 +43,7 @@ add_executable(evolution_tests
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
 set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/tools/sfml")
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/tools/sfml/cmake/Modules")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/FindSFML.cmake")
 find_package(SFML REQUIRED system window graphics network audio)
 include_directories(/usr/local/include)
 
