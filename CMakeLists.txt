@@ -45,7 +45,7 @@ add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package(SFML REQUIRED window graphics)
 include_directories(/usr/local/include)
-message("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@${SFML_LIBRARIES}")
+message("${SFML_LIBRARIES}")
 target_include_directories(evolution_tests PUBLIC project/include)
 target_link_libraries(evolution_tests
         GTest::main
