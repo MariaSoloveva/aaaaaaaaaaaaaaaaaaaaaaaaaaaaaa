@@ -22,7 +22,6 @@ find_package(nlohmann_json CONFIG REQUIRED)
 hunter_add_package(Boost COMPONENTS system filesystem)
 find_package(Boost CONFIG REQUIRED system filesystem)
 
-
 set(EXECUTABLE_NAME "Evolution")
 
 add_executable(evolution_tests
