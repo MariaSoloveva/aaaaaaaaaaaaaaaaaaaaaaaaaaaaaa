@@ -27,6 +27,7 @@ before_script:
 
 
 script: 
+  - cmake .. && make
   - g++ -c project/main.cpp
 
 notifications:
