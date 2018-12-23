@@ -45,14 +45,14 @@ add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package(SFML REQUIRED window graphics)
 include_directories(/usr/local/include)
-message("${SFML_LIBRARIES}")
+add_library(sfml STATIC ${SFML_LIBRARIES})
 target_include_directories(evolution_tests PUBLIC project/include)
 target_link_libraries(evolution_tests
         GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
         Boost::filesystem
-        ${SFML_LIBRARIES})
+        sfml)
         
 enable_testing()
 add_test(NAME tests COMMAND evolution_tests)
