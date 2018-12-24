@@ -50,8 +50,8 @@ target_link_libraries(evolution_tests
         GTest::main
         nlohmann_json::nlohmann_json
         Boost::system
-        Boost::filesystem)
-        #${SFML_LIBRARIES})
+        Boost::filesystem
+        ${SFML_LIBRARIES})
         
 enable_testing()
 add_test(NAME tests COMMAND evolution_tests)
